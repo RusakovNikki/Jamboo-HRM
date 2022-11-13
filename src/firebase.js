@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app"
-import { getAuth, onAuthStateChanged } from "firebase/auth"
+import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth"
 import { doc, getDoc, getFirestore } from "firebase/firestore"
-import { getStorage, ref, uploadBytes } from "firebase/storage"
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage"
 import { useEffect, useState } from "react"
 
 // Your web app's Firebase configuration
@@ -38,8 +38,16 @@ export async function uploadData(file, currentUser) {
     if (file) {
         const fileRef = ref(storage, `avatars/${currentUser.uid}.png`)
 
-        // const snapshot = 
         await uploadBytes(fileRef, file)
+        const photo = await getDownloadURL(fileRef)
+
+        updateProfile(currentUser, {
+            photoURL: photo,
+        }).then((res) => {
+            console.log(res)
+        }).catch((error) => {
+            console.log(error)
+        });
     }
 }
 
