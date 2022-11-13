@@ -1,7 +1,7 @@
 import React from "react"
 
 const Employee = () => {
-  return <div>Employee</div>
+  return <div>Вы являетесь сотрудником</div>
 }
 
 export default Employee

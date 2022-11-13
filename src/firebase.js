@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
-import { getFirestore } from "firebase/firestore"
+import { doc, getDoc, getFirestore } from "firebase/firestore"
 import { getStorage, ref, uploadBytes } from "firebase/storage"
 import { useEffect, useState } from "react"
 
@@ -35,7 +35,23 @@ export function useAuth() {
 }
 
 export async function uploadData(file, currentUser) {
-    const fileRef = ref(storage, `avatars/${currentUser.uid}.png`)
+    if (file) {
+        const fileRef = ref(storage, `avatars/${currentUser.uid}.png`)
 
-    const snapshot = await uploadBytes(fileRef, file)
+        // const snapshot = 
+        await uploadBytes(fileRef, file)
+    }
+}
+
+export function useGetDataAboutUser(currentUser) {
+    const [role, setRole] = useState(null)
+    if (currentUser) {
+        const docRef = doc(db, "aboutUser", currentUser?.uid)
+        getDoc(docRef).then(result => {
+            setRole(result.data()?.role)
+        }, req => {
+            console.log(req)
+        })
+    }
+    return role
 }

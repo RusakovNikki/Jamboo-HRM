@@ -1,57 +1,30 @@
 import React, { useState } from "react"
+import { Link } from "react-router-dom"
+import { signInWithEmailAndPassword } from "firebase/auth"
 
-import { auth, db, uploadData, useAuth } from "../firebase"
-import { ROLES } from "../utils/consts"
-
-import { createUserWithEmailAndPassword } from "firebase/auth"
-import { doc, setDoc } from "firebase/firestore"
+import { auth } from "../firebase"
 
 const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [roleUser, setRole] = useState(ROLES.EMPLOYEE)
-  const [avatar, setAvatar] = useState(null)
 
-  // const currentUser = useAuth()
-  // console.log(currentUser)
-
-  async function createNewUser(e) {
+  async function enterToAccaunt(e) {
     e.preventDefault()
 
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    )
-    const user = await userCredential.user
-    console.log(user)
-
-    const about = await setDoc(doc(db, "aboutUser", user.uid), {
-      role: roleUser,
+    await signInWithEmailAndPassword(auth, email, password).catch((error) => {
+      // const errorCode = error.code
+      const errorMessage = error.message
+      console.log(errorMessage)
     })
-    console.log(about)
-
-    const upload = uploadData(avatar, user)
-    console.log(upload)
   }
-
   return (
     <div>
-      <form onSubmit={createNewUser}>
-        <label htmlFor="role">Кем вы являетесь?</label>
-        <br />
-        <select name="role" id="role" onChange={(e) => setRole(e.target.value)}>
-          <option value={ROLES.EMPLOYEE}>Я сотрубник компании</option>
-          <option value={ROLES.SUPERVISOR}>
-            Я являюсь руководителем команды
-          </option>
-        </select>
-        <br />
+      <form onSubmit={enterToAccaunt}>
         <input
           type="email"
           name="email"
-          value={email}
           placeholder="Введите почту"
+          value={email}
           required
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -63,16 +36,13 @@ const Login = () => {
           name="password"
           required
           onChange={(e) => setPassword(e.target.value)}
-        />{" "}
-        <br />
-        <input
-          type="file"
-          name="logo"
-          accept="image/*"
-          onChange={(e) => setAvatar(e.target.files[0])}
         />
         <br />
-        <input type="submit" value="Создать аккаунт" />
+        <input type="submit" value="Войти" />
+        <br />
+        <Link to="/reg">
+          <button>Регистрация</button>
+        </Link>
       </form>
     </div>
   )

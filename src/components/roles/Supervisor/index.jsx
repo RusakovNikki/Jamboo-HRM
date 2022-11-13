@@ -1,7 +1,7 @@
 import React from "react"
 
 const Supervisor = () => {
-  return <div>Supervisor</div>
+  return <div>Вы - Супервайзор!</div>
 }
 
 export default Supervisor

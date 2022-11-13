@@ -1,15 +1,17 @@
 import React from "react"
-
 import { Navigate, Route, Routes } from "react-router-dom"
+
+import { useAuth } from "../firebase"
 import { privateRoutes, publicRoutes } from "../routes"
 import { HOME_PAGE_ROUTE, LOGIN_ROUTE } from "../utils/consts"
 
 const AppRouter = () => {
-  const USER = false
+  const currentUser = useAuth()
+
   return (
     <>
       <Routes>
-        {USER ? (
+        {currentUser ? (
           <>
             {privateRoutes.map(({ path, Component }) => (
               <Route path={path} key={path} element={<Component />} />
