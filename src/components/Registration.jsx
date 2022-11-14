@@ -31,7 +31,7 @@ const Registration = () => {
     })
     console.log(about)
 
-    const upload = uploadData(avatar, user)
+    const upload = await uploadData(avatar, user)
     console.log(upload)
 
     setPassword("")
