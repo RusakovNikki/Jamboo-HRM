@@ -14,6 +14,7 @@ const Promo = () => {
   useEffect(() => {
     setTimeout(() => setIsLoading(true), 1000)
   }, [])
+
   return (
     <>
       {isLoading ? (
@@ -27,9 +28,21 @@ const Promo = () => {
                     <div className="logo__text">Jamboo Software</div>
                   </div>
                 </Link>
-                <Link to={"/reg"}>
-                  <button className="button">Начать работу</button>
-                </Link>
+                {user ? (
+                  <Link to={"/home"}>
+                    <LetteredAvatar
+                      name={user?.email}
+                      size={60}
+                      radius={20}
+                      color="#fff"
+                      backgroundColors={arrayWithColors}
+                    />
+                  </Link>
+                ) : (
+                  <Link to={"/reg"}>
+                    <button className="button">Начать работу</button>
+                  </Link>
+                )}
               </div>
             </div>
           </header>
@@ -45,22 +58,11 @@ const Promo = () => {
                     работу так, чтобы все знали, чем нужно заниматься, почему
                     это важно и как это сделать.
                   </div>
-                  {user ? (
-                    <LetteredAvatar
-                      name={user?.email}
-                      size={60}
-                      radius={20}
-                      color="#fff"
-                      backgroundColor="rgb(55,55,22)"
-                      backgroundColors={arrayWithColors}
-                    />
-                  ) : (
-                    <Link to={"/reg"}>
-                      <button className="button content__button">
-                        Начать работу
-                      </button>
-                    </Link>
-                  )}
+                  <Link to={"/reg"}>
+                    <button className="button content__button">
+                      Начать работу
+                    </button>
+                  </Link>
                 </div>
                 <div className="content__image">
                   <div className="content__image1 content__images">

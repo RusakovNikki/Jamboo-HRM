@@ -148,3 +148,126 @@
     font-size: 36px;
   }
 }
+.form-wrapper {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.form {
+  display: flex;
+  width: 540px;
+  height: calc(100vh - 70px);
+  justify-content: center;
+  flex-direction: column;
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__title {
+    font-weight: 400;
+    font-size: 50px;
+    text-align: center;
+    margin-bottom: 70px;
+  }
+
+  &__file-photo-container {
+    display: flex;
+    align-items: center;
+  }
+
+  &__input,
+  &__select,
+  &__select > option {
+    background-color: #fff;
+    border: 2px solid #e0e6e8;
+    border-radius: 3px;
+    height: 50px;
+    line-height: normal;
+    margin: 5px 0;
+    padding: 0 16px;
+    transition: border 0.15s;
+    width: 100%;
+    outline: 0;
+    box-sizing: border-box;
+    font-size: 16px;
+
+    &:focus {
+      border: 2px solid rgb(245, 114, 114);
+    }
+  }
+
+  &__label {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  &__text-label {
+    margin-left: 10px;
+  }
+
+  &__select {
+    width: 100%;
+  }
+}
+
+.fileOpen + input {
+  display: none;
+}
+.fileOpen {
+  width: 30px;
+  height: 30px;
+  background-image: url("./images/imageOpen.png");
+  background-size: cover;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.navbar {
+  color: rgb(159, 159, 159);
+  background-color: rgb(30, 30, 30);
+  width: 400px;
+
+  &__logout {
+    margin-right: 15px;
+    cursor: pointer;
+  }
+  &__title {
+    padding-left: 15px;
+    margin-bottom: 5px;
+  }
+  &__refs {
+    margin-top: 20px;
+  }
+  &__ref {
+    width: 100%;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 0px 10px 35px;
+    box-sizing: border-box;
+
+    &:hover {
+      background-color: rgb(41, 41, 41);
+      color: #fff;
+    }
+  }
+}
+
+.wrapper--background {
+  background-color: rgb(30, 30, 30);
+}
+
+.flex {
+  display: flex;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}

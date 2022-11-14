@@ -8,16 +8,16 @@ import { Preloader } from "./Promo"
 
 const AppRouter = () => {
   const [currentUser, isLoading] = useAuth()
-  console.log(isLoading)
   return (
-    <>
+    <div className="container">
       {!isLoading ? (
         <Routes>
           {currentUser ? (
             <>
-              {privateRoutes.map(({ path, Component }) => (
-                <Route path={path} key={path} element={<Component />} />
-              ))}
+              {privateRoutes.map(({ path, Component }) => {
+                console.log(path)
+                return <Route path={path} key={path} element={<Component />} />
+              })}
               <Route
                 path="*"
                 element={<Navigate to={HOME_PAGE_ROUTE} replace />}
@@ -25,18 +25,18 @@ const AppRouter = () => {
             </>
           ) : (
             <>
-              {publicRoutes.map(({ path, Component }) => (
-                <Route path={path} key={path} element={<Component />} />
-              ))}
+              {publicRoutes.map(({ path, Component }) => {
+                console.log(path)
+                return <Route path={path} key={path} element={<Component />} />
+              })}
               <Route path="*" element={<Navigate to={PROMO_ROUTE} replace />} />
             </>
           )}
         </Routes>
       ) : (
-        // <Preloader />
-        <></>
+        <Preloader />
       )}
-    </>
+    </div>
   )
 }
 

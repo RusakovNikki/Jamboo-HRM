@@ -28,8 +28,10 @@ export function useAuth() {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        const unsub = onAuthStateChanged(auth, user => setCurrentUser(user))
-        setLoading(false)
+        const unsub = onAuthStateChanged(auth, user => {
+            setCurrentUser(user)
+            setLoading(false)
+        })
         return unsub
     }, [])
 
@@ -43,7 +45,7 @@ export async function uploadData(file, currentUser) {
         await uploadBytes(fileRef, file)
         const photo = await getDownloadURL(fileRef)
 
-        updateProfile(currentUser, {
+        await updateProfile(currentUser, {
             photoURL: photo,
         }).then((res) => {
             console.log(res)
