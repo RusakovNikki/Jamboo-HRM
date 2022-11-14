@@ -3,12 +3,12 @@ import { signOut } from "firebase/auth"
 import LetteredAvatar from "react-lettered-avatar"
 
 import { auth, useAuth, useGetDataAboutUser } from "../firebase"
-import { ROLES } from "../utils/consts"
+import { arrayWithColors, ROLES } from "../utils/consts"
 import Employee from "./roles/Employee"
 import Supervisor from "./roles/Supervisor"
 
 const HomePage = () => {
-  const currentUser = useAuth()
+  const [currentUser] = useAuth()
   const [avatar, setAvatar] = useState("")
   const role = useGetDataAboutUser(currentUser)
 
@@ -24,15 +24,6 @@ const HomePage = () => {
   }, [currentUser])
   console.log(currentUser)
 
-  const arrayWithColors = [
-    "#2ecc71",
-    "#3498db",
-    "#8e44ad",
-    "#e67e22",
-    "#e74c3c",
-    "#1abc9c",
-    "#2c3e50",
-  ]
   return (
     <>
       <LetteredAvatar

@@ -25,13 +25,15 @@ const storage = getStorage()
 
 export function useAuth() {
     const [currentUser, setCurrentUser] = useState()
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const unsub = onAuthStateChanged(auth, user => setCurrentUser(user))
+        setLoading(false)
         return unsub
     }, [])
 
-    return currentUser
+    return [currentUser, loading]
 }
 
 export async function uploadData(file, currentUser) {

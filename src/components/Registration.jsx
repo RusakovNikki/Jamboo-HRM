@@ -12,7 +12,7 @@ const Registration = () => {
   const [roleUser, setRole] = useState(ROLES.EMPLOYEE)
   const [avatar, setAvatar] = useState(null)
 
-  // const currentUser = useAuth()
+  // const [currentUser] = useAuth()
   // console.log(currentUser)
 
   async function createNewUser(e) {
