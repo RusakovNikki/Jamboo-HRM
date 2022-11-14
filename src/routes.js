@@ -1,7 +1,8 @@
 import HomePage from "./components/HomePage";
 import Login from "./components/Login";
+import Promo from "./components/Promo";
 import Registration from "./components/Registration";
-import { HOME_PAGE_ROUTE, LOGIN_ROUTE, REG_ROUTE } from "./utils/consts";
+import { HOME_PAGE_ROUTE, LOGIN_ROUTE, PROMO_ROUTE, REG_ROUTE } from "./utils/consts";
 
 export const publicRoutes = [
     {
@@ -11,6 +12,10 @@ export const publicRoutes = [
     {
         path: REG_ROUTE,
         Component: Registration
+    },
+    {
+        path: PROMO_ROUTE,
+        Component: Promo
     }
 ]
 

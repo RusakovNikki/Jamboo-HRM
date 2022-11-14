@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { signOut } from "firebase/auth"
+import LetteredAvatar from "react-lettered-avatar"
 
 import { auth, useAuth, useGetDataAboutUser } from "../firebase"
 import { ROLES } from "../utils/consts"
-import Navbar from "./Navbar"
 import Employee from "./roles/Employee"
 import Supervisor from "./roles/Supervisor"
 
@@ -24,9 +24,25 @@ const HomePage = () => {
   }, [currentUser])
   console.log(currentUser)
 
+  const arrayWithColors = [
+    "#2ecc71",
+    "#3498db",
+    "#8e44ad",
+    "#e67e22",
+    "#e74c3c",
+    "#1abc9c",
+    "#2c3e50",
+  ]
   return (
     <>
-      <Navbar />
+      <LetteredAvatar
+        name={currentUser?.email}
+        size={100}
+        radius={20}
+        color="#fff"
+        backgroundColor="rgb(55,55,22)"
+        backgroundColors={arrayWithColors}
+      />
       <img src={avatar} width="300" alt="avatar" />
       {role === ROLES.EMPLOYEE ? (
         <>

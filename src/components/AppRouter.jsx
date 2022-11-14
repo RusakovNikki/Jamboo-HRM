@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom"
 
 import { useAuth } from "../firebase"
 import { privateRoutes, publicRoutes } from "../routes"
-import { HOME_PAGE_ROUTE, LOGIN_ROUTE } from "../utils/consts"
+import { HOME_PAGE_ROUTE, PROMO_ROUTE } from "../utils/consts"
 
 const AppRouter = () => {
   const currentUser = useAuth()
@@ -26,7 +26,7 @@ const AppRouter = () => {
             {publicRoutes.map(({ path, Component }) => (
               <Route path={path} key={path} element={<Component />} />
             ))}
-            <Route path="*" element={<Navigate to={LOGIN_ROUTE} replace />} />
+            <Route path="*" element={<Navigate to={PROMO_ROUTE} replace />} />
           </>
         )}
       </Routes>
