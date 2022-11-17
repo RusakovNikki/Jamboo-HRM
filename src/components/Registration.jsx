@@ -79,7 +79,7 @@ const Registration = () => {
               required
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div className="form__container">
+            {/* <div className="form__container">
               <div className="form__file-photo-container">
                 <label htmlFor="file" className="fileOpen"></label>
                 <input
@@ -93,8 +93,8 @@ const Registration = () => {
                   Прикрепить фотографию
                 </label>
               </div>
-              <input type="submit" value="Создать аккаунт" className="button" />
-            </div>
+            </div> */}
+            <input type="submit" value="Создать аккаунт" className="button" />
           </form>
         </div>
       </div>

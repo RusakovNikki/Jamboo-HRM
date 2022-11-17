@@ -10,7 +10,7 @@ import { arrayWithColors } from "../utils/consts"
 const Promo = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [user] = useAuth()
-  console.log(user)
+
   useEffect(() => {
     setTimeout(() => setIsLoading(true), 1000)
   }, [])

@@ -15,7 +15,6 @@ const AppRouter = () => {
           {currentUser ? (
             <>
               {privateRoutes.map(({ path, Component }) => {
-                console.log(path)
                 return <Route path={path} key={path} element={<Component />} />
               })}
               <Route
@@ -26,7 +25,6 @@ const AppRouter = () => {
           ) : (
             <>
               {publicRoutes.map(({ path, Component }) => {
-                console.log(path)
                 return <Route path={path} key={path} element={<Component />} />
               })}
               <Route path="*" element={<Navigate to={PROMO_ROUTE} replace />} />

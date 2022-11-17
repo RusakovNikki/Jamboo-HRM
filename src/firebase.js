@@ -42,11 +42,11 @@ export async function uploadData(file, currentUser) {
     if (file) {
         const fileRef = ref(storage, `avatars/${currentUser.uid}.png`)
 
-        await uploadBytes(fileRef, file)
-        const photo = await getDownloadURL(fileRef)
+        const upload = await uploadBytes(fileRef, file)
+        // const photo = await getDownloadURL(fileRef)
 
-        await updateProfile(currentUser, {
-            photoURL: photo,
+        await updateProfile(auth.currentUser, {
+            photoURL: `https://firebasestorage.googleapis.com/v0/b/jamboo-hrm.appspot.com/o/avatars%2F${auth.currentUser.uid}.png?alt=media&token=4c17c0fd-9ba2-4a3b-bf13-2d4c1191793d`,
         }).then((res) => {
             console.log(res)
         }).catch((error) => {
