@@ -56,14 +56,16 @@ export async function uploadData(file, currentUser) {
 }
 
 export function useGetDataAboutUser(currentUser) {
-    const [role, setRole] = useState(null)
+    const [userRole, setUserRole] = useState(null)
+    const [userName, setUserName] = useState(null)
     if (currentUser) {
         const docRef = doc(db, "aboutUser", currentUser?.uid)
         getDoc(docRef).then(result => {
-            setRole(result.data()?.role)
+            setUserRole(result.data()?.role)
+            setUserName(result.data()?.name)
         }, req => {
             console.log(req)
         })
     }
-    return role
+    return [userRole, userName]
 }
