@@ -1,10 +1,24 @@
-import React from "react"
+import { doc, getDoc } from "firebase/firestore"
+import React, { useState, useRef, useEffect } from "react"
+
+import { db, useAuth } from "../../firebase"
 import ChooseCompanyPopup from "./ChooseCompanyPopup"
 import s from "./Popups.module.scss"
 
 const SettingsPopup = ({ setSettingsPopup, settingsPopup }) => {
-    const sortRef = React.useRef(null)
-    const [chooseCompanyPopup, setChooseCompanyPopup] = React.useState(false)
+    const sortRef = useRef(null)
+    const [currentUser] = useAuth()
+    const [chooseCompanyPopup, setChooseCompanyPopup] = useState(false)
+    const [company, setCompany] = useState({})
+
+    useEffect(() => {
+        if (currentUser) {
+            const docRef = doc(db, "aboutUser", currentUser.uid)
+            getDoc(docRef)
+                // .then((docSnap) => docSnap.data().company)
+                .then((docSnap) => setCompany(docSnap.data().company))
+        }
+    }, [currentUser])
 
     const hidePopup = (event) => {
         if (!event.nativeEvent.path.includes(sortRef.current)) {
@@ -49,8 +63,12 @@ const SettingsPopup = ({ setSettingsPopup, settingsPopup }) => {
 
                 <div className={s.pages_popup__list}>
                     <div className={s.pages_popup__item}>
-                        <p className={s.pages_popup__name}>{"Ваша компания"}</p>
-                        <p className={s.pages_popup__web}>{"Описание"}</p>
+                        <p className={s.pages_popup__name}>
+                            {company.name || "Ваша компания не выбрана"}
+                        </p>
+                        <p className={s.pages_popup__web}>
+                            {company.about || ""}
+                        </p>
                         <a href="#" className={s.pages_popup__icon}></a>
                     </div>
                 </div>

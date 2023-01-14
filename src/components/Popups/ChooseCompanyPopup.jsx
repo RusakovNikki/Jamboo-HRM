@@ -1,16 +1,24 @@
-import { collection, getDocs, query } from "firebase/firestore"
+import { collection, doc, getDocs, query, updateDoc } from "firebase/firestore"
 import React, { useState, useEffect } from "react"
 
-import { db } from "../../firebase"
-import AddNewCompanyPopup from "./AddNewCompanyPopup"
-import s from "./Popups.module.scss"
 import placeholder from "../../images/placeholder.png"
+import AddNewCompanyPopup from "./AddNewCompanyPopup"
+import { db, useAuth } from "../../firebase"
+import s from "./Popups.module.scss"
 
 const ChooseCompanyPopup = ({ setChooseCompanyPopup, chooseCompanyPopup }) => {
+    const [currentUser] = useAuth()
     const sortRef = React.useRef(null)
     const [addNewCompanyPopup, setAddNewCompanyPopup] = useState(false)
     const [dbCompany, setDbCompany] = useState([])
     const [companyInList, setCompanyInList] = useState()
+
+    async function addCompanyForEmployee() {
+        const user = doc(db, "aboutUser", currentUser.uid)
+        updateDoc(user, { company: companyInList })
+
+        setChooseCompanyPopup(false)
+    }
 
     useEffect(() => {
         const q = query(collection(db, "company"))
@@ -65,15 +73,15 @@ const ChooseCompanyPopup = ({ setChooseCompanyPopup, chooseCompanyPopup }) => {
 
                 <div className={s.pages_popup__list}>
                     {dbCompany &&
-                        dbCompany.map((item, idx) => (
+                        dbCompany.map((item) => (
                             <>
                                 <div
                                     className={`${s.pages_popup__item} ${
-                                        companyInList === idx
+                                        companyInList?.id === item.id
                                             ? s.pages_popup__item_active
                                             : ""
                                     }`}
-                                    onClick={() => setCompanyInList(idx)}
+                                    onClick={() => setCompanyInList(item)}
                                 >
                                     <p className={s.pages_popup__name}>
                                         {item.name}
@@ -93,10 +101,16 @@ const ChooseCompanyPopup = ({ setChooseCompanyPopup, chooseCompanyPopup }) => {
                 </div>
                 <div className={s.pages_popup__buttons}>
                     <button
-                        className={s.pages_popup__button_left}
+                        className={s.pages_popup__buttons_left}
                         onClick={() => setAddNewCompanyPopup(true)}
                     >
-                        Добавить свою компанию
+                        Добавить компанию
+                    </button>
+                    <button
+                        className={s.pages_popup__buttons_right}
+                        onClick={addCompanyForEmployee}
+                    >
+                        Выбрать компанию
                     </button>
                 </div>
             </div>

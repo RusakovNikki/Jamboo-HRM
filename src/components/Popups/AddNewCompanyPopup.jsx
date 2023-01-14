@@ -20,10 +20,12 @@ const AddNewCompanyPopup = ({ setAddNewCompanyPopup, addNewCompanyPopup }) => {
     async function createNewUser(e) {
         e.preventDefault()
 
+        const date = Date.now()
         const dataCompany = await setDoc(doc(db, "company", nameCompany), {
             name: nameCompany,
             about: aboutCompany,
             image: imageLinkCompany,
+            id: date,
         })
         console.log(dataCompany)
 
