@@ -29,7 +29,6 @@ const HomePage = () => {
     //   }
     // }, [reload])
     // console.log(currentUser)
-    console.log(userName)
     return (
         <div className="flex">
             <nav className="navbar">

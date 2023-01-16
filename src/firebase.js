@@ -1,9 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app"
 import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth"
-import { doc, getDoc, getFirestore } from "firebase/firestore"
+import { doc, getDoc, getDocs, getFirestore, query, where, collection } from "firebase/firestore"
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -68,4 +68,30 @@ export function useGetDataAboutUser(currentUser) {
         })
     }
     return [userRole, userName]
+}
+
+export async function getDataCollectionWithQuery(collectionParam, field, currentValue) {
+    let data = []
+    let company = query(
+        collection(db, collectionParam),
+        where(field, "==", currentValue)
+    )
+    const querySnapshot = await getDocs(company)
+    querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        data = doc.data()
+    })
+
+    return data
+}
+
+export function getDataCollection(collectionParam, currentValue) {
+    let company = {}
+
+    const docRef = doc(db, collectionParam, currentValue)
+    getDoc(docRef)
+        // .then((docSnap) => docSnap.data().company)
+        .then((docSnap) => company = docSnap.data().company)
+
+    return company
 }

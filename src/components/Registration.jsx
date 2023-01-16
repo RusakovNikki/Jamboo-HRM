@@ -27,6 +27,7 @@ const Registration = () => {
         const about = await setDoc(doc(db, "aboutUser", user.uid), {
             role: roleUser,
             name: nameUser,
+            id: user.uid,
         })
         console.log(about)
 

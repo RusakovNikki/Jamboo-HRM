@@ -9,6 +9,7 @@ const SettingsPopup = ({ setSettingsPopup, settingsPopup }) => {
     const sortRef = useRef(null)
     const [currentUser] = useAuth()
     const [chooseCompanyPopup, setChooseCompanyPopup] = useState(false)
+    const [reloadThisComponent, setReloadThisComponent] = useState(false)
     const [company, setCompany] = useState({})
 
     useEffect(() => {
@@ -18,7 +19,7 @@ const SettingsPopup = ({ setSettingsPopup, settingsPopup }) => {
                 // .then((docSnap) => docSnap.data().company)
                 .then((docSnap) => setCompany(docSnap.data().company))
         }
-    }, [currentUser])
+    }, [currentUser, reloadThisComponent])
 
     const hidePopup = (event) => {
         if (!event.nativeEvent.path.includes(sortRef.current)) {
@@ -35,6 +36,7 @@ const SettingsPopup = ({ setSettingsPopup, settingsPopup }) => {
             <ChooseCompanyPopup
                 setChooseCompanyPopup={setChooseCompanyPopup}
                 chooseCompanyPopup={chooseCompanyPopup}
+                setUpdateThisComponent={setReloadThisComponent}
             />
         )
     }
@@ -64,10 +66,10 @@ const SettingsPopup = ({ setSettingsPopup, settingsPopup }) => {
                 <div className={s.pages_popup__list}>
                     <div className={s.pages_popup__item}>
                         <p className={s.pages_popup__name}>
-                            {company.name || "Ваша компания не выбрана"}
+                            {company?.name || "Ваша компания не выбрана"}
                         </p>
                         <p className={s.pages_popup__web}>
-                            {company.about || ""}
+                            {company?.about || ""}
                         </p>
                         <a href="#" className={s.pages_popup__icon}></a>
                     </div>

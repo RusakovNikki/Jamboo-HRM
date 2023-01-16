@@ -3,13 +3,18 @@ import React, { useState } from "react"
 import { db, useAuth } from "../../firebase"
 import s from "./Popups.module.scss"
 
-const AddNewCompanyPopup = ({ setAddNewCompanyPopup, addNewCompanyPopup }) => {
+const AddNewCompanyPopup = ({
+    setAddNewCompanyPopup,
+    addNewCompanyPopup,
+    setReloadThisComponent,
+}) => {
     const [currentUser] = useAuth()
 
     const sortRef = React.useRef(null)
     const [nameCompany, setNameCompany] = useState("")
     const [aboutCompany, setAboutCompany] = useState("")
     const [imageLinkCompany, setImageLinkCompany] = useState("")
+    const [passwordCompany, setPasswordCompany] = useState("")
 
     const hidePopup = (event) => {
         if (!event.nativeEvent.path.includes(sortRef.current)) {
@@ -26,6 +31,8 @@ const AddNewCompanyPopup = ({ setAddNewCompanyPopup, addNewCompanyPopup }) => {
             about: aboutCompany,
             image: imageLinkCompany,
             id: date,
+            users: [],
+            password: passwordCompany,
         })
         console.log(dataCompany)
 
@@ -33,6 +40,7 @@ const AddNewCompanyPopup = ({ setAddNewCompanyPopup, addNewCompanyPopup }) => {
         setAboutCompany("")
         setImageLinkCompany("")
         setAddNewCompanyPopup(false)
+        setReloadThisComponent((prev) => !prev)
     }
 
     console.log(currentUser?.uid)
@@ -62,7 +70,7 @@ const AddNewCompanyPopup = ({ setAddNewCompanyPopup, addNewCompanyPopup }) => {
                             placeholder="Название компании"
                             value={nameCompany}
                             onChange={(e) => setNameCompany(e.target.value)}
-                            required
+                            required="required"
                         />
                         <input
                             type="text"
@@ -79,6 +87,14 @@ const AddNewCompanyPopup = ({ setAddNewCompanyPopup, addNewCompanyPopup }) => {
                             onChange={(e) =>
                                 setImageLinkCompany(e.target.value)
                             }
+                        />
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Ключ для доступа пользователям"
+                            value={passwordCompany}
+                            required="required"
+                            onChange={(e) => setPasswordCompany(e.target.value)}
                         />
                     </div>
                     <div

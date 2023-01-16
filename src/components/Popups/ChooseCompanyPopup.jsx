@@ -1,23 +1,75 @@
-import { collection, doc, getDocs, query, updateDoc } from "firebase/firestore"
-import React, { useState, useEffect } from "react"
+import {
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    query,
+    updateDoc,
+    where,
+} from "firebase/firestore"
+import React, { useState, useEffect, useRef } from "react"
 
 import placeholder from "../../images/placeholder.png"
 import AddNewCompanyPopup from "./AddNewCompanyPopup"
-import { db, useAuth } from "../../firebase"
+import { db, getDataCollectionWithQuery, useAuth } from "../../firebase"
 import s from "./Popups.module.scss"
 
-const ChooseCompanyPopup = ({ setChooseCompanyPopup, chooseCompanyPopup }) => {
+const ChooseCompanyPopup = ({
+    setChooseCompanyPopup,
+    chooseCompanyPopup,
+    setUpdateThisComponent,
+}) => {
     const [currentUser] = useAuth()
-    const sortRef = React.useRef(null)
+    const sortRef = useRef(null)
     const [addNewCompanyPopup, setAddNewCompanyPopup] = useState(false)
     const [dbCompany, setDbCompany] = useState([])
     const [companyInList, setCompanyInList] = useState()
+    const userRef = useRef(null)
+    const [reloadThisComponent, setReloadThisComponent] = useState(false)
 
     async function addCompanyForEmployee() {
-        const user = doc(db, "aboutUser", currentUser.uid)
-        updateDoc(user, { company: companyInList })
+        // Добавление компании в профиль пользователя
 
+        //нахождение компании для проверки поля пароля на совпадение
+        let { users, password } = await getDataCollectionWithQuery(
+            "company",
+            "name",
+            companyInList.name
+        )
+
+        const passwordEnter = prompt(
+            "Введите ключ для входа, отправленный Вам руководителем"
+        )
+
+        if (passwordEnter !== password) {
+            alert("Введен неверный ключ")
+            return (
+                <ChooseCompanyPopup
+                    setChooseCompanyPopup={setChooseCompanyPopup}
+                    chooseCompanyPopup={chooseCompanyPopup}
+                    setUpdateThisComponent={setUpdateThisComponent}
+                />
+            )
+        }
+
+        const user = doc(db, "aboutUser", currentUser.uid)
+        await updateDoc(user, { company: companyInList })
+
+        const userSnap = await getDoc(user)
+        userRef.current = userSnap.data()
+
+        addEmployeeForCompany(users)
         setChooseCompanyPopup(false)
+        setUpdateThisComponent((prev) => !prev)
+    }
+
+    async function addEmployeeForCompany(usersInCompany) {
+        // Добавление в базу данных всех пользователей, кто присоеденён к данной компании
+
+        const companyDoc = doc(db, "company", companyInList.name)
+        await updateDoc(companyDoc, {
+            users: { ...usersInCompany, [userRef.current.id]: userRef.current },
+        })
     }
 
     useEffect(() => {
@@ -28,14 +80,11 @@ const ChooseCompanyPopup = ({ setChooseCompanyPopup, chooseCompanyPopup }) => {
                 querySnapshot // Получаю всю коллекцию
             ) =>
                 querySnapshot.forEach((doc) => {
-                    // console.log(doc.id, " => ", doc.data())
                     const data = doc.data()
                     setDbCompany((prev) => [...prev, data])
                 })
         )
-    }, [])
-
-    console.log(dbCompany)
+    }, [reloadThisComponent])
 
     const hidePopup = (event) => {
         if (!event.nativeEvent.path.includes(sortRef.current)) {
@@ -48,11 +97,12 @@ const ChooseCompanyPopup = ({ setChooseCompanyPopup, chooseCompanyPopup }) => {
             <AddNewCompanyPopup
                 setAddNewCompanyPopup={setAddNewCompanyPopup}
                 addNewCompanyPopup={addNewCompanyPopup}
+                setReloadThisComponent={setReloadThisComponent}
             />
         )
     }
 
-    if (!ChooseCompanyPopup) {
+    if (!chooseCompanyPopup) {
         return
     }
 
@@ -114,6 +164,7 @@ const ChooseCompanyPopup = ({ setChooseCompanyPopup, chooseCompanyPopup }) => {
                     </button>
                 </div>
             </div>
+            {/* {reloadThisComponent && <div></div>} */}
         </div>
     )
 }
