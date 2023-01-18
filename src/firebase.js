@@ -85,13 +85,15 @@ export async function getDataCollectionWithQuery(collectionParam, field, current
     return data
 }
 
-export function getDataCollection(collectionParam, currentValue) {
-    let company = {}
-
+export async function getDataCollection(collectionParam, currentValue) {
     const docRef = doc(db, collectionParam, currentValue)
-    getDoc(docRef)
-        // .then((docSnap) => docSnap.data().company)
-        .then((docSnap) => company = docSnap.data().company)
+    const docSnap = await getDoc(docRef)
 
-    return company
+    return docSnap.data()
+}
+
+export async function getUserData(currentUser) {
+    const user = doc(db, "aboutUser", currentUser.uid)
+    const userSnap = await getDoc(user)
+    return userSnap.data()
 }

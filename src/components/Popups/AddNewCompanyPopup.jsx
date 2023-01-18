@@ -33,6 +33,7 @@ const AddNewCompanyPopup = ({
             id: date,
             users: [],
             password: passwordCompany,
+            statuses: [],
         })
         console.log(dataCompany)
 

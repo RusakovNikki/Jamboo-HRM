@@ -4,11 +4,12 @@ import LetteredAvatar from "react-lettered-avatar"
 import { Link } from "react-router-dom"
 
 import { auth, useAuth, useGetDataAboutUser } from "../firebase"
-import { arrayWithColors, HOME_PAGE_ROUTE, ROLES } from "../utils/consts"
+import { arrayWithColors, HOME_PAGE_ROUTE, ROLES, TASKS } from "../utils/consts"
 import Employee from "./roles/Employee"
 import Supervisor from "./roles/Supervisor"
 import logOutImg from "../images/logout.svg"
 import SettingsPopup from "./Popups/SettingsPopup"
+import Tasks from "./Tasks"
 
 const HomePage = () => {
     const [currentUser] = useAuth()
@@ -23,12 +24,6 @@ const HomePage = () => {
         console.log(leave)
     }
 
-    // useEffect(() => {
-    //   if (currentUser?.photoURL) {
-    //     setAvatar(currentUser.photoURL)
-    //   }
-    // }, [reload])
-    // console.log(currentUser)
     return (
         <div className="flex">
             <nav className="navbar">
@@ -61,8 +56,6 @@ const HomePage = () => {
                 </div>
                 <div className="navbar__refs">
                     <p className="navbar__title">Избранные задачи</p>
-                    {/* <div className="navbar__ref">Чаты</div>
-          <div className="navbar__ref">Моя компания</div> */}
                 </div>
             </nav>
             <div className="content">
@@ -120,9 +113,7 @@ const HomePage = () => {
                         </div>
                     </div>
                 </div>
-
-                {/* {role === ROLES.EMPLOYEE ? <Employee /> : <Supervisor />} */}
-                {/* <EditAccauntPage /> */}
+                <Tasks />
             </div>
             {settingsPopup && (
                 <SettingsPopup
@@ -160,19 +151,3 @@ const Avatar = ({ currentUser, avatar }) => {
         </div>
     )
 }
-
-// const EditAccauntPage = () => {
-//     return (
-//         <div className="edit">
-//             <div className="edit__image"></div>
-//             <div className="">
-//                 <h2 className="edit__title content__title">
-//                     Добро пожаловать в наше приложение!
-//                 </h2>
-//                 <div className="edit__text">
-//                     Давайте заполним информацию о Вас и вашей компании
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
