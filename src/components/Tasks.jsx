@@ -37,7 +37,8 @@ const Tasks = () => {
                             <StatusOfTasks
                                 key={`${index}${item.nameStatus}`}
                                 status={item.nameStatus}
-                                tasks={item.tasks}
+                                item={item}
+                                rows={rows}
                             />
                         ))}
                     </>

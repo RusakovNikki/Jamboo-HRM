@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import AddNewTask from "./Popups/AddNewTask"
 
-const StatusOfTasks = ({ status }) => {
+const StatusOfTasks = ({ status, item, rows }) => {
     const [taskPopup, setTaskPopup] = useState(false)
     return (
         <div className="main__item status_item">
@@ -16,11 +16,16 @@ const StatusOfTasks = ({ status }) => {
                     <p>WEN-13</p>
                 </div>
             </div>
-            <div className="add_new_task">
+            <div className="add_new_task" onClick={() => setTaskPopup(true)}>
                 <p>Создать задачу</p>
             </div>
             {taskPopup && (
-                <AddNewTask taskPopup={taskPopup} setTaskPopup={setTaskPopup} />
+                <AddNewTask
+                    taskPopup={taskPopup}
+                    setTaskPopup={setTaskPopup}
+                    item={item}
+                    rows={rows}
+                />
             )}
         </div>
     )

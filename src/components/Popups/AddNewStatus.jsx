@@ -27,7 +27,10 @@ const AddNewStatus = ({
 
         const companyDoc = doc(db, "company", user.company.name)
         await updateDoc(companyDoc, {
-            statuses: [...statuses, { nameStatus: nameStatus, tasks: {} }],
+            statuses: [
+                ...statuses,
+                { nameStatus: nameStatus, tasks: {}, id: Date.now() },
+            ],
         })
 
         setAddStatusPopup(false)

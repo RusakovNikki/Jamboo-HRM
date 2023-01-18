@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import { db, getDataCollection, getUserData, useAuth } from "../../firebase"
 import s from "./Popups.module.scss"
 
-const AddNewTask = ({ taskPopup, setTaskPopup }) => {
+const AddNewTask = ({ taskPopup, setTaskPopup, item, rows }) => {
     const sortRef = React.useRef(null)
     const [nameStatus, setNameStatus] = useState("")
     const [currentUser] = useAuth()
@@ -13,19 +13,21 @@ const AddNewTask = ({ taskPopup, setTaskPopup }) => {
             setTaskPopup(false)
         }
     }
-    async function createNewStatus(e) {
-        //     e.preventDefault()
-        //     const user = await getUserData(currentUser)
-        //     const { statuses } = await getDataCollection(
-        //         "company",
-        //         user.company.name
-        //     )
-        //     const companyDoc = doc(db, "company", user.company.name)
-        //     await updateDoc(companyDoc, {
-        //         statuses: [...statuses, { nameStatus: nameStatus, tasks: {} }],
-        //     })
-        //     setAddStatusPopup(false)
-        //     setUpdateComponent((prev) => !prev)
+
+    async function createNewTask(e) {
+        e.preventDefault()
+        const user = await getUserData(currentUser)
+        const { statuses } = await getDataCollection(
+            "company",
+            user.company.name
+        )
+        console.log(user)
+        // const companyDoc = doc(db, "company", user.company.name)
+        // await updateDoc(companyDoc, {
+        //     statuses: [...statuses, { nameStatus: nameStatus, tasks: {} }],
+        // })
+        // setAddStatusPopup(false)
+        // setUpdateComponent((prev) => !prev)
     }
 
     if (!taskPopup) {
@@ -41,7 +43,7 @@ const AddNewTask = ({ taskPopup, setTaskPopup }) => {
                     <p>Создать задачу</p>
                     <button
                         className={s.pages_popup__leave_btn}
-                        onClick={() => setNameStatus(false)}
+                        onClick={() => setTaskPopup(false)}
                     ></button>
                 </div>
                 <div className={s.decorate}></div>
@@ -60,7 +62,7 @@ const AddNewTask = ({ taskPopup, setTaskPopup }) => {
                     <div className={s.pages_popup__buttons}>
                         <button
                             className={s.pages_popup__button_left}
-                            onClick={createNewStatus}
+                            onClick={createNewTask}
                         >
                             Добавить
                         </button>
