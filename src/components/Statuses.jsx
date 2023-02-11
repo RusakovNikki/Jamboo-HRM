@@ -39,6 +39,7 @@ const Statuses = () => {
                                 status={item.nameStatus}
                                 item={item}
                                 rows={rows}
+                                user={userRef.current}
                             />
                         ))}
                     </>

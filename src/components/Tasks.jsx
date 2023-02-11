@@ -1,8 +1,10 @@
 import React, { useState } from "react"
 import AddNewTask from "./Popups/AddNewTask"
 
-const Tasks = ({ status, item, rows }) => {
+const Tasks = ({ status, item, rows, user }) => {
     const [taskPopup, setTaskPopup] = useState(false)
+
+    console.log(user)
     return (
         <div className="main__item status_item">
             <div className="status_item__title">
@@ -10,12 +12,14 @@ const Tasks = ({ status, item, rows }) => {
                     {status} <span>{item.tasks.length} Задачи</span>
                 </p>
             </div>
-            {item.tasks.map((task) => (
+            {item.tasks.map((task, index) => (
                 <>
                     <div className="status_item__issue task">
                         <div className="task__title">{task.text}</div>
                         <div className="task__num_task">
-                            <p>WEN-13</p>
+                            <p>
+                                {user.company.name}-{index + 1}
+                            </p>
                         </div>
                     </div>
                 </>
