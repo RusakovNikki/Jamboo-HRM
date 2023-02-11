@@ -1,66 +1,32 @@
-import React from "react"
-import { useEffect } from "react"
-import { useRef } from "react"
-import { useState } from "react"
-import { getDataCollection, getUserData, useAuth } from "../firebase"
-import { ROLES } from "../utils/consts"
-import AddNewStatus from "./Popups/AddNewStatus"
-import StatusOfTasks from "./StatusOfTasks"
+import React, { useState } from "react"
+import AddNewTask from "./Popups/AddNewTask"
 
-const Tasks = () => {
-    const [addStatusPopup, setAddStatusPopup] = useState(false)
-    const [rows, setRows] = useState({})
-    const [updateCompnent, setUpdateComponent] = useState(false)
-    const [currentUser] = useAuth()
-    const userRef = useRef(null)
-
-    async function setStatuses() {
-        const user = await getUserData(currentUser)
-        userRef.current = user
-        const { statuses } = await getDataCollection(
-            "company",
-            user.company.name
-        )
-        setRows(statuses)
-    }
-    useEffect(() => {
-        if (currentUser) {
-            setStatuses()
-        }
-    }, [currentUser, updateCompnent])
+const Tasks = ({ status, item, rows }) => {
+    const [taskPopup, setTaskPopup] = useState(false)
     return (
-        <div className="main">
-            <div className="main__status_container">
-                {Object.keys(rows).length !== 0 ? (
-                    <>
-                        {rows.map((item, index) => (
-                            <StatusOfTasks
-                                key={`${index}${item.nameStatus}`}
-                                status={item.nameStatus}
-                                item={item}
-                                rows={rows}
-                            />
-                        ))}
-                    </>
-                ) : (
-                    <h2>Задач пока что нет, можно отдыхать 😄</h2>
-                )}
-                {userRef?.current?.role === ROLES.SUPERVISOR && (
-                    <div
-                        className="add_status"
-                        onClick={() => setAddStatusPopup(true)}
-                    >
-                        <div></div>
-                    </div>
-                )}
-                {addStatusPopup && (
-                    <AddNewStatus
-                        addStatusPopup={addStatusPopup}
-                        setAddStatusPopup={setAddStatusPopup}
-                        setUpdateComponent={setUpdateComponent}
-                    />
-                )}
+        <div className="main__item status_item">
+            <div className="status_item__title">
+                <p>
+                    {status} <span>{item.tasks.length} Задачи</span>
+                </p>
             </div>
+            <div className="status_item__issue task">
+                <div className="task__title">Найти Бэкендера Python Flask</div>
+                <div className="task__num_task">
+                    <p>WEN-13</p>
+                </div>
+            </div>
+            <div className="add_new_task" onClick={() => setTaskPopup(true)}>
+                <p>Создать задачу</p>
+            </div>
+            {taskPopup && (
+                <AddNewTask
+                    taskPopup={taskPopup}
+                    setTaskPopup={setTaskPopup}
+                    item={item}
+                    rows={rows}
+                />
+            )}
         </div>
     )
 }

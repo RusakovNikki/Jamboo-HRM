@@ -9,7 +9,7 @@ import Employee from "./roles/Employee"
 import Supervisor from "./roles/Supervisor"
 import logOutImg from "../images/logout.svg"
 import SettingsPopup from "./Popups/SettingsPopup"
-import Tasks from "./Tasks"
+import Statuses from "./Statuses"
 
 const HomePage = () => {
     const [currentUser] = useAuth()
@@ -113,7 +113,7 @@ const HomePage = () => {
                         </div>
                     </div>
                 </div>
-                <Tasks />
+                <Statuses />
             </div>
             {settingsPopup && (
                 <SettingsPopup

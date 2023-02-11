@@ -2,7 +2,7 @@ import HomePage from "./components/HomePage";
 import Login from "./components/Login";
 import Promo from "./components/Promo";
 import Registration from "./components/Registration";
-import Tasks from "./components/Tasks";
+import Statuses from "./components/Statuses";
 import { HOME_PAGE_ROUTE, LOGIN_ROUTE, PROMO_ROUTE, REG_ROUTE, TASKS } from "./utils/consts";
 
 export const publicRoutes = [
@@ -31,6 +31,6 @@ export const privateRoutes = [
     },
     {
         path: TASKS,
-        Component: Tasks
+        Component: Statuses
     }
 ]
