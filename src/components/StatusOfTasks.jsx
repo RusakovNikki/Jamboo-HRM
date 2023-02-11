@@ -7,7 +7,7 @@ const StatusOfTasks = ({ status, item, rows }) => {
         <div className="main__item status_item">
             <div className="status_item__title">
                 <p>
-                    {status} <span>3 Задачи</span>
+                    {status} <span>{item.tasks.length} Задачи</span>
                 </p>
             </div>
             <div className="status_item__issue task">

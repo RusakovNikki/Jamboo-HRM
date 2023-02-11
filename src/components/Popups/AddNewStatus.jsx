@@ -29,7 +29,7 @@ const AddNewStatus = ({
         await updateDoc(companyDoc, {
             statuses: [
                 ...statuses,
-                { nameStatus: nameStatus, tasks: {}, id: Date.now() },
+                { nameStatus: nameStatus, tasks: [], id: Date.now() },
             ],
         })
 

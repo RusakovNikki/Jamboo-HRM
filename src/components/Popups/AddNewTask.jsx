@@ -5,7 +5,7 @@ import s from "./Popups.module.scss"
 
 const AddNewTask = ({ taskPopup, setTaskPopup, item, rows }) => {
     const sortRef = React.useRef(null)
-    const [nameStatus, setNameStatus] = useState("")
+    const [nameTask, setNameTask] = useState("")
     const [currentUser] = useAuth()
 
     const hidePopup = (event) => {
@@ -13,20 +13,26 @@ const AddNewTask = ({ taskPopup, setTaskPopup, item, rows }) => {
             setTaskPopup(false)
         }
     }
-
+    console.log(item)
+    console.log(rows)
     async function createNewTask(e) {
         e.preventDefault()
         const user = await getUserData(currentUser)
-        const { statuses } = await getDataCollection(
-            "company",
-            user.company.name
-        )
-        console.log(user)
-        // const companyDoc = doc(db, "company", user.company.name)
-        // await updateDoc(companyDoc, {
-        //     statuses: [...statuses, { nameStatus: nameStatus, tasks: {} }],
-        // })
-        // setAddStatusPopup(false)
+
+        rows.forEach((row) => {
+            if (row.id === item.id) {
+                row.tasks.push({
+                    id: Date.now(),
+                    text: nameTask,
+                })
+            }
+        })
+        console.log(rows)
+        const companyDoc = doc(db, "company", user.company.name)
+        await updateDoc(companyDoc, {
+            statuses: rows,
+        })
+        setTaskPopup(false)
         // setUpdateComponent((prev) => !prev)
     }
 
@@ -54,8 +60,8 @@ const AddNewTask = ({ taskPopup, setTaskPopup, item, rows }) => {
                             type="text"
                             name="name"
                             placeholder="Название задачи"
-                            value={nameStatus}
-                            onChange={(e) => setNameStatus(e.target.value)}
+                            value={nameTask}
+                            onChange={(e) => setNameTask(e.target.value)}
                             required="required"
                         />
                     </div>
