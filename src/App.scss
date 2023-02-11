@@ -429,6 +429,8 @@
 
 .status_item {
     height: auto;
+    min-width: 280px;
+    box-sizing: border-box;
     background-color: var(--ds-surface-sunken, #f4f5f7);
     border-radius: 7px;
     padding: 5px;
