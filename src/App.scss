@@ -240,8 +240,16 @@
 
 .title {
     font-size: 30px;
-
     &__users {
+        display: flex;
+    }
+    &__user {
+        margin-right: -15px;
+    }
+    &__users_container {
+        display: flex;
+        max-width: 158px;
+        margin-left: 5px;
     }
 }
 .form-wrapper {

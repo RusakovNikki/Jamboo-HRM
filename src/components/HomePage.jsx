@@ -72,14 +72,19 @@ const HomePage = () => {
                         </div> */}
                         {currentCompany ? (
                             <div className="title">
-                                <div>{currentCompany.name} /</div>
                                 <div className="title__users">
-                                    <div className="title__user">
-                                        {/* {currentCompany.users.map((user) => (
-                                            <>
-                                                <p>qqqq</p>
-                                            </>
-                                        ))} */}
+                                    <div>{currentCompany.name} / </div>
+                                    <div className="title__users_container">
+                                        {currentCompany.users.map((user) => (
+                                            <div
+                                                className="title__user"
+                                                key={user.id}
+                                            >
+                                                <Avatar
+                                                    currentUser={user.name}
+                                                />
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
