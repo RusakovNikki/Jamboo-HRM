@@ -1,23 +1,23 @@
 import { doc, setDoc, updateDoc } from "firebase/firestore"
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
+
 import { db, getDataCollection, getUserData, useAuth } from "../../firebase"
+import { Context } from "../../context"
 import s from "./Popups.module.scss"
 
 const AddNewTask = ({ taskPopup, setTaskPopup, item, rows }) => {
     const sortRef = React.useRef(null)
     const [nameTask, setNameTask] = useState("")
-    const [currentUser] = useAuth()
+    const { currentUserData, setCurrentCompany } = useContext(Context)
 
     const hidePopup = (event) => {
         if (!event.nativeEvent.path.includes(sortRef.current)) {
             setTaskPopup(false)
         }
     }
-    console.log(item)
-    console.log(rows)
+
     async function createNewTask(e) {
         e.preventDefault()
-        const user = await getUserData(currentUser)
 
         rows.forEach((row) => {
             if (row.id === item.id) {
@@ -27,13 +27,11 @@ const AddNewTask = ({ taskPopup, setTaskPopup, item, rows }) => {
                 })
             }
         })
-        console.log(rows)
-        const companyDoc = doc(db, "company", user.company.name)
-        await updateDoc(companyDoc, {
-            statuses: rows,
+        setCurrentCompany((company) => {
+            return { ...company, statuses: rows }
         })
+
         setTaskPopup(false)
-        // setUpdateComponent((prev) => !prev)
     }
 
     if (!taskPopup) {
