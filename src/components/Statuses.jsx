@@ -19,6 +19,7 @@ const Statuses = () => {
     } = useContext(Context)
 
     async function setStatuses() {
+        debugger
         const user = await getUserData(currentUser)
         setCurrentUserData(user)
         const company = await getDataCollection("company", user?.company?.name)
@@ -37,7 +38,7 @@ const Statuses = () => {
         if (currentUser) {
             setStatuses()
         }
-    }, [currentUser, updateCompnent])
+    }, [currentUser])
     return (
         <div className="main">
             <div className="main__status_container">

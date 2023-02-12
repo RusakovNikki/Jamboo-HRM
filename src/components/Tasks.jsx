@@ -8,6 +8,7 @@ const Tasks = ({ status, item, rows, user }) => {
     const { currentCompany, setCurrentCompany } = useContext(Context)
 
     const deleteStatus = (statusId) => {
+        debugger
         const company = currentCompany
 
         company.statuses = company.statuses.filter((status) => {
@@ -22,6 +23,7 @@ const Tasks = ({ status, item, rows, user }) => {
     }
 
     const deleteTask = (id) => {
+        debugger
         const company = currentCompany
         company.statuses = company.statuses.filter((status) => {
             status.tasks = status.tasks.filter((task) => {
