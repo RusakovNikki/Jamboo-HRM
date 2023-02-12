@@ -1,6 +1,8 @@
 import { doc, setDoc, updateDoc } from "firebase/firestore"
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
+
 import { db, getDataCollection, getUserData, useAuth } from "../../firebase"
+import { Context } from "../../context"
 import s from "./Popups.module.scss"
 
 const AddNewStatus = ({
@@ -11,6 +13,12 @@ const AddNewStatus = ({
     const sortRef = React.useRef(null)
     const [nameStatus, setNameStatus] = useState("")
     const [currentUser] = useAuth()
+    const {
+        currentUserData,
+        setCurrentUserData,
+        currentCompany,
+        setCurrentCompany,
+    } = useContext(Context)
 
     const hidePopup = (event) => {
         if (!event.nativeEvent.path.includes(sortRef.current)) {
@@ -19,20 +27,17 @@ const AddNewStatus = ({
     }
     async function createNewStatus(e) {
         e.preventDefault()
-        const user = await getUserData(currentUser)
-        const { statuses } = await getDataCollection(
-            "company",
-            user.company.name
-        )
 
-        const companyDoc = doc(db, "company", user.company.name)
-        await updateDoc(companyDoc, {
-            statuses: [
-                ...statuses,
-                { nameStatus: nameStatus, tasks: [], id: Date.now() },
-            ],
+        setCurrentCompany((company) => {
+            return {
+                ...company,
+                statuses: [
+                    ...company.statuses,
+                    { nameStatus: nameStatus, tasks: [], id: Date.now() },
+                ],
+            }
         })
-
+        console.log(currentCompany)
         setAddStatusPopup(false)
         setUpdateComponent((prev) => !prev)
     }

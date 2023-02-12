@@ -21,7 +21,7 @@ const Statuses = () => {
     async function setStatuses() {
         const user = await getUserData(currentUser)
         setCurrentUserData(user)
-        const company = await getDataCollection("company", user.company.name)
+        const company = await getDataCollection("company", user?.company?.name)
         setCurrentCompany(company)
     }
 

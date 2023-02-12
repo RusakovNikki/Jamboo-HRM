@@ -192,6 +192,20 @@
     }
 }
 
+.smooth {
+    animation: promo-page-show 1 0.2s ease-in-out;
+
+    @keyframes promo-page-show {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+}
+
 .preloader {
     &__logo {
         width: 100vw;
@@ -439,6 +453,30 @@
 
     &__title {
         margin: 10px 10px 15px;
+        position: relative;
+    }
+
+    &__del_btn {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        border: 0;
+        outline: 0;
+        right: -10px;
+        top: -5px;
+        background-color: transparent;
+        background-image: url("./images/minus-sign.png");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 15px;
+        border: 1px solid transparent;
+        cursor: pointer;
+
+        transition: border 0.2s ease;
+
+        &:hover {
+            border: 1px solid black;
+        }
     }
 }
 
@@ -449,6 +487,7 @@
     width: 250px;
     margin-bottom: 5px;
     box-shadow: 0px 0px 2px rgb(172, 172, 172);
+    position: relative;
     cursor: pointer;
     &:hover {
         box-shadow: 0px 0px 2px rgb(43, 43, 43);
@@ -461,6 +500,27 @@
             margin-top: 10px;
             margin-bottom: -5px;
             font-size: 10px;
+        }
+    }
+
+    &__delete {
+        cursor: pointer;
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        top: 7px;
+        right: 6px;
+        border: 0;
+        outline: 0;
+        background-color: #fff;
+        background-image: url("./images/delete.png");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 8px;
+        transition: border 0.4s;
+
+        &:hover {
+            border: 1px solid black;
         }
     }
 }

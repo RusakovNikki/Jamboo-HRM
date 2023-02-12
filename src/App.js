@@ -12,6 +12,7 @@ function App() {
   const [settingsPopup, setSettingsPopup] = useState(false)
 
   const updateCompany = async () => {
+    console.log('update');
     const userDoc = doc(db, "aboutUser", currentUserData.id)
     await updateDoc(userDoc, {
       company: currentCompany

@@ -124,7 +124,7 @@ const ChooseCompanyPopup = ({
                 <div className={s.pages_popup__list}>
                     {dbCompany &&
                         dbCompany.map((item) => (
-                            <>
+                            <div key={item.id}>
                                 <div
                                     className={`${s.pages_popup__item} ${
                                         companyInList?.id === item.id
@@ -146,7 +146,7 @@ const ChooseCompanyPopup = ({
                                         />
                                     </a>
                                 </div>
-                            </>
+                            </div>
                         ))}
                 </div>
                 <div className={s.pages_popup__buttons}>
