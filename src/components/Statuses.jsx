@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from "react"
 
-import { Context } from "../context"
 import { getDataCollection, getUserData, useAuth } from "../firebase"
-import { ROLES } from "../utils/consts"
 import AddNewStatus from "./Popups/AddNewStatus"
+import { ROLES } from "../utils/consts"
+import { Context } from "../context"
 import Tasks from "./Tasks"
 
 const Statuses = () => {
@@ -15,6 +15,7 @@ const Statuses = () => {
         setCurrentUserData,
         currentCompany,
         setCurrentCompany,
+        setSettingsPopup,
     } = useContext(Context)
 
     async function setStatuses() {
@@ -22,6 +23,14 @@ const Statuses = () => {
         setCurrentUserData(user)
         const company = await getDataCollection("company", user.company.name)
         setCurrentCompany(company)
+    }
+
+    const onClickButtonAddStatus = () => {
+        if (!currentCompany) {
+            setSettingsPopup(true)
+        } else {
+            setAddStatusPopup(true)
+        }
     }
 
     useEffect(() => {
@@ -51,7 +60,7 @@ const Statuses = () => {
                 {currentUserData?.role === ROLES.SUPERVISOR && (
                     <div
                         className="add_status"
-                        onClick={() => setAddStatusPopup(true)}
+                        onClick={onClickButtonAddStatus}
                     >
                         <div></div>
                     </div>

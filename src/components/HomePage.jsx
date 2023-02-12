@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import { signOut } from "firebase/auth"
 import LetteredAvatar from "react-lettered-avatar"
 import { Link } from "react-router-dom"
@@ -10,6 +10,7 @@ import Supervisor from "./roles/Supervisor"
 import logOutImg from "../images/logout.svg"
 import SettingsPopup from "./Popups/SettingsPopup"
 import Statuses from "./Statuses"
+import { Context } from "../context"
 
 const HomePage = () => {
     const [currentUser] = useAuth()
@@ -17,7 +18,8 @@ const HomePage = () => {
     const [avatar, setAvatar] = useState("")
     const [title, setTitle] = useState("Главная")
     const [isUserInterface, setIsUserInterface] = useState(false)
-    const [settingsPopup, setSettingsPopup] = useState(false)
+    // const [settingsPopup, setSettingsPopup] = useState(false)
+    const { settingsPopup, setSettingsPopup } = useContext(Context)
 
     async function leaveFromAccaunt() {
         const leave = await signOut(auth)
