@@ -20,6 +20,7 @@ const HomePage = () => {
     const [isUserInterface, setIsUserInterface] = useState(false)
     // const [settingsPopup, setSettingsPopup] = useState(false)
     const { settingsPopup, setSettingsPopup } = useContext(Context)
+    const { currentCompany } = useContext(Context)
 
     async function leaveFromAccaunt() {
         const leave = await signOut(auth)
@@ -63,7 +64,28 @@ const HomePage = () => {
             <div className="content">
                 <div className="content__header">
                     <div className="flex space-between align-center">
-                        <div className="title">{title}</div>
+                        {/* <div className="title">
+                            {currentCompany.name || title}
+                            {currentCompany?.name ? <>
+                                <p>{currentCompany.name} / </p>
+                            </> : <>{title}</>}
+                        </div> */}
+                        {currentCompany ? (
+                            <div className="title">
+                                <div>{currentCompany.name} /</div>
+                                <div className="title__users">
+                                    <div className="title__user">
+                                        {/* {currentCompany.users.map((user) => (
+                                            <>
+                                                <p>qqqq</p>
+                                            </>
+                                        ))} */}
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="title">{title}</div>
+                        )}
                         <div className="flex align-center">
                             <div className="search content__search">
                                 <label
@@ -129,7 +151,7 @@ const HomePage = () => {
 
 export default HomePage
 
-const Avatar = ({ currentUser, avatar }) => {
+export const Avatar = ({ currentUser, avatar }) => {
     return (
         <div>
             {!currentUser ? (

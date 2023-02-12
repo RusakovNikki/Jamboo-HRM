@@ -29,7 +29,7 @@ const ChooseCompanyPopup = ({
 
     async function addCompanyForEmployee() {
         // Добавление компании в профиль пользователя
-
+        debugger
         //нахождение компании для проверки поля пароля на совпадение
         let { users, password } = await getDataCollectionWithQuery(
             "company",
@@ -65,10 +65,11 @@ const ChooseCompanyPopup = ({
 
     async function addEmployeeForCompany(usersInCompany) {
         // Добавление в базу данных всех пользователей, кто присоеденён к данной компании
-
+        debugger
         const companyDoc = doc(db, "company", companyInList.name)
         await updateDoc(companyDoc, {
-            users: { ...usersInCompany, [userRef.current.id]: userRef.current },
+            // users: { ...usersInCompany, [userRef.current.id]: userRef.current },
+            users: [...usersInCompany, userRef.current],
         })
     }
 

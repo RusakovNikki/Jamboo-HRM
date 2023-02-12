@@ -27,7 +27,6 @@ const AddNewStatus = ({
     }
     async function createNewStatus(e) {
         e.preventDefault()
-        debugger
         setCurrentCompany((company) => {
             return {
                 ...company,

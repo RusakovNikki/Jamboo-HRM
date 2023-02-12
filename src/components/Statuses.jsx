@@ -19,7 +19,6 @@ const Statuses = () => {
     } = useContext(Context)
 
     async function setStatuses() {
-        debugger
         const user = await getUserData(currentUser)
         setCurrentUserData(user)
         const company = await getDataCollection("company", user?.company?.name)

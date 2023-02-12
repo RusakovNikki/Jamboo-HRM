@@ -8,7 +8,6 @@ const Tasks = ({ status, item, rows, user }) => {
     const { currentCompany, setCurrentCompany } = useContext(Context)
 
     const deleteStatus = (statusId) => {
-        debugger
         const company = currentCompany
 
         company.statuses = company.statuses.filter((status) => {
@@ -23,7 +22,6 @@ const Tasks = ({ status, item, rows, user }) => {
     }
 
     const deleteTask = (id) => {
-        debugger
         const company = currentCompany
         company.statuses = company.statuses.filter((status) => {
             status.tasks = status.tasks.filter((task) => {
@@ -57,7 +55,7 @@ const Tasks = ({ status, item, rows, user }) => {
                             <div className="task__title">{task.text}</div>
                             <div className="task__num_task">
                                 <p>
-                                    {user.company.name}-{index + 1}
+                                    {user?.company?.name}-{index + 1}
                                 </p>
                             </div>
                             <button
