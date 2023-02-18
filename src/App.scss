@@ -280,6 +280,15 @@
     &__file-photo-container {
         display: flex;
         align-items: center;
+        cursor: pointer;
+        transition: background-color 0.4s;
+        padding: 2px 9px;
+        background-color: #ededed;
+        // transform: scale(0.6);
+
+        &:hover {
+            background-color: #dbdbdb;
+        }
     }
 
     &__input,
@@ -321,11 +330,11 @@
     display: none;
 }
 .fileOpen {
-    width: 30px;
-    height: 30px;
+    width: 15px;
+    height: 15px;
     background-image: url("./images/imageOpen.png");
-    background-size: cover;
-    margin: 10px 0;
+    background-size: 15px;
+    margin: 5px 0;
     cursor: pointer;
 }
 
@@ -502,6 +511,10 @@
     cursor: pointer;
     &:hover {
         box-shadow: 0px 0px 2px rgb(43, 43, 43);
+    }
+
+    &__title {
+        word-wrap: break-word;
     }
 
     &__num_task {

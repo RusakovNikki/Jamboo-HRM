@@ -2,9 +2,12 @@ import React, { useContext, useState } from "react"
 
 import AddNewTask from "./Popups/AddNewTask"
 import { Context } from "../context"
+import TaskInfoPopup from "./Popups/TaskInfoPopup"
 
 const Tasks = ({ status, item, rows, user }) => {
     const [taskPopup, setTaskPopup] = useState(false)
+    const [taskInfoPopup, setTaskInfoPopup] = useState(false)
+    const [task, setTask] = useState()
     const { currentCompany, setCurrentCompany } = useContext(Context)
 
     const deleteStatus = (statusId) => {
@@ -21,6 +24,11 @@ const Tasks = ({ status, item, rows, user }) => {
         })
     }
 
+    const showInfoAboutTask = (task) => {
+        setTask(task)
+        setTaskInfoPopup(true)
+    }
+
     const deleteTask = (id) => {
         const company = currentCompany
         company.statuses = company.statuses.filter((status) => {
@@ -35,7 +43,7 @@ const Tasks = ({ status, item, rows, user }) => {
             return { ...company }
         })
     }
-    console.log(item)
+
     return (
         <div className="main__item status_item smooth">
             <div className="status_item__title">
@@ -51,8 +59,13 @@ const Tasks = ({ status, item, rows, user }) => {
                 item &&
                 item.tasks.map((task, index) => (
                     <div key={task.id}>
-                        <div className="status_item__issue task smooth">
-                            <div className="task__title">{task.text}</div>
+                        <div
+                            className="status_item__issue task smooth"
+                            onClick={() => showInfoAboutTask(task)}
+                        >
+                            <div className="task__title">
+                                <p>{task.text}</p>
+                            </div>
                             <div className="task__num_task">
                                 <p>
                                     {user?.company?.name}-{index + 1}
@@ -75,6 +88,13 @@ const Tasks = ({ status, item, rows, user }) => {
                     setTaskPopup={setTaskPopup}
                     item={item}
                     rows={rows}
+                />
+            )}
+            {taskInfoPopup && (
+                <TaskInfoPopup
+                    taskPopup={taskInfoPopup}
+                    setTaskPopup={setTaskInfoPopup}
+                    task={task}
                 />
             )}
         </div>
