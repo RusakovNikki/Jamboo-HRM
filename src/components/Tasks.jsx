@@ -95,6 +95,7 @@ const Tasks = ({ status, item, rows, user }) => {
                     taskPopup={taskInfoPopup}
                     setTaskPopup={setTaskInfoPopup}
                     task={task}
+                    status={item}
                 />
             )}
         </div>
