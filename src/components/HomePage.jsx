@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { signOut } from "firebase/auth"
 import LetteredAvatar from "react-lettered-avatar"
 import { Link } from "react-router-dom"
@@ -18,14 +18,31 @@ const HomePage = () => {
     const [avatar, setAvatar] = useState("")
     const [title, setTitle] = useState("Главная")
     const [isUserInterface, setIsUserInterface] = useState(false)
+    const [searchTaskValue, setSearchTaskValue] = useState("")
     // const [settingsPopup, setSettingsPopup] = useState(false)
     const { settingsPopup, setSettingsPopup } = useContext(Context)
+    const [dataBySearch, setDataBySearch] = useState([])
     const { currentCompany } = useContext(Context)
 
     async function leaveFromAccaunt() {
         const leave = await signOut(auth)
-        console.log(leave)
     }
+
+    const searchTasks = (e) => {
+        setDataBySearch([])
+        currentCompany?.statuses?.forEach((status) => {
+            status.tasks.forEach((task) => {
+                if (task.text.indexOf(searchTaskValue) === 0) {
+                    setDataBySearch((data) => [...data, task.id])
+                }
+            })
+        })
+    }
+
+    useEffect(() => {
+        searchTasks()
+    }, [searchTaskValue])
+    console.log(dataBySearch)
 
     return (
         <div className="flex">
@@ -104,6 +121,10 @@ const HomePage = () => {
                                     type="text"
                                     placeholder="Поиск"
                                     className="search__input"
+                                    value={searchTaskValue}
+                                    onChange={(e) =>
+                                        setSearchTaskValue(e.target.value)
+                                    }
                                 />
                             </div>
                             <div
@@ -144,7 +165,7 @@ const HomePage = () => {
                         </div>
                     </div>
                 </div>
-                <Statuses />
+                <Statuses dataBySearch={dataBySearch} />
             </div>
             {settingsPopup && (
                 <SettingsPopup
