@@ -42,7 +42,6 @@ const HomePage = () => {
     useEffect(() => {
         searchTasks()
     }, [searchTaskValue])
-    console.log(dataBySearch)
 
     return (
         <div className="flex">

@@ -37,7 +37,7 @@ const Statuses = ({ dataBySearch }) => {
     useEffect(() => {
         if (dataBySearch.length) {
             let copyCompany = JSON.parse(JSON.stringify(currentCompany))
-            console.log(copyCompany)
+
             copyCompany.statuses = copyCompany.statuses.filter((status) => {
                 const fil = status.tasks.filter((task) => {
                     const filt = dataBySearch.filter((id) => {

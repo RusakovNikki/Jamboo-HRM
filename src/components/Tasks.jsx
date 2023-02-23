@@ -2,12 +2,15 @@ import React, { useContext, useState } from "react"
 
 import AddNewTask from "./Popups/AddNewTask"
 import { Context } from "../context"
-import TaskInfoPopup from "./Popups/TaskInfoPopup"
+import { TaskInfoPopup } from "./Popups/TaskInfoPopup"
+import { Avatar } from "./HomePage"
 
 const Tasks = ({ status, item, rows, user }) => {
     const [taskPopup, setTaskPopup] = useState(false)
     const [taskInfoPopup, setTaskInfoPopup] = useState(false)
     const [task, setTask] = useState()
+    const [currentStatus, setCurrentStatus] = useState()
+    const [currentTask, setCurrentTask] = useState()
     const { currentCompany, setCurrentCompany } = useContext(Context)
 
     const deleteStatus = (statusId) => {
@@ -44,6 +47,41 @@ const Tasks = ({ status, item, rows, user }) => {
         })
     }
 
+    const dragOverHandler = (e) => {
+        console.log("over")
+        e.preventDefault()
+        if (e.target.className === "status_item__issue task smooth") {
+            e.target.style.boxShadow = "0 2px 3px gray"
+        }
+    }
+
+    const dragLeaveHandler = (e) => {
+        console.log("leave")
+        e.target.style.boxShadow = "none"
+    }
+
+    const dragStartHandler = (e, status, task) => {
+        console.log("start")
+        setCurrentStatus(status)
+        setCurrentTask(task)
+    }
+
+    const dragEndHandler = (e) => {
+        console.log("end")
+        e.target.style.boxShadow = "none"
+    }
+
+    const dropHandler = (e, task) => {
+        console.log("drop")
+        e.preventDefault()
+        currentStatus.tasks = currentStatus.tasks.filter((currTask) => {
+            if (currTask.id !== task.id) {
+                return currTask
+            }
+        })
+        console.log(currentStatus)
+    }
+
     return (
         <div className="main__item status_item smooth">
             <div className="status_item__title">
@@ -62,6 +100,12 @@ const Tasks = ({ status, item, rows, user }) => {
                         <div
                             className="status_item__issue task smooth"
                             onClick={() => showInfoAboutTask(task)}
+                            draggable={true}
+                            onDragOver={(e) => dragOverHandler(e)}
+                            onDragLeave={(e) => dragLeaveHandler(e)}
+                            onDragStart={(e) => dragStartHandler(e, item, task)}
+                            onDragEnd={(e) => dragEndHandler(e)}
+                            onDrop={(e) => dropHandler(e, task)}
                         >
                             <div className="task__title">
                                 <p>{task.text}</p>
@@ -70,6 +114,13 @@ const Tasks = ({ status, item, rows, user }) => {
                                 <p>
                                     {user?.company?.name}-{index + 1}
                                 </p>
+                                {task?.userNameForTask && (
+                                    <div className="task__avatar">
+                                        <Avatar
+                                            currentUser={task.userNameForTask}
+                                        />
+                                    </div>
+                                )}
                             </div>
                             <button
                                 className="task__delete"

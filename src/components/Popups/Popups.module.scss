@@ -8,6 +8,27 @@
     top: 0;
     left: 0;
 
+    &__choice_employee {
+        background-image: url("../../images/leave.svg");
+        width: 40px;
+        height: 40px;
+        background-size: 28px;
+        background-position: center;
+        background-repeat: no-repeat;
+        border: 0;
+        transform: rotate(45deg);
+        background-color: transparent;
+        cursor: pointer;
+        border: 2px solid transparent;
+        border-radius: 50%;
+        padding: 5px;
+        position: relative;
+
+        &:hover {
+            border: 2px solid rgb(223, 223, 223);
+        }
+    }
+
     &__button {
         position: absolute;
         bottom: 20px;
@@ -35,6 +56,8 @@
 
     &__title_task {
         font-size: 30px;
+        width: 85%;
+        overflow-wrap: break-word;
     }
 
     &__form {
@@ -117,20 +140,19 @@
 
         &_margin {
             margin: 0px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+    }
+    &__leave_btn {
+        width: 28px;
+        height: 28px;
 
-        button {
-            width: 28px;
-            height: 28px;
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            border: 0;
-            background: inherit;
-            background: center no-repeat url("../../images/leave.svg");
-            cursor: pointer;
-        }
+        border: 0;
+        background: inherit;
+        background: center no-repeat url("../../images/leave.svg");
+        cursor: pointer;
     }
 
     &__subtitle {
@@ -236,6 +258,30 @@
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%) scale(1);
+        }
+    }
+}
+
+.show_users_popup {
+    position: absolute;
+    transform: rotate(-45deg);
+    top: 70px;
+    left: -100px;
+    background-color: #fff;
+    border: 1px solid lightgray;
+    padding: 10px;
+
+    &__user {
+        display: flex;
+        margin: 10px;
+        padding: 10px;
+
+        p {
+            margin-left: 10px;
+        }
+
+        &:hover {
+            background-color: rgb(197, 197, 197);
         }
     }
 }

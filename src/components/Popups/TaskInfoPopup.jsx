@@ -4,19 +4,19 @@ import { Context } from "../../context"
 import { Avatar } from "../HomePage"
 import s from "./Popups.module.scss"
 
-const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
+export const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
     const sortRef = React.useRef(null)
     const [messageInTask, setMessageInTask] = useState("")
+    const [choiceEmployeePopup, setСhoiceEmployeePopup] = useState(false)
     let { currentUserData, currentCompany, setCurrentCompany } =
         useContext(Context)
 
-    console.log(task)
     const hidePopup = (event) => {
         if (!event.nativeEvent.path.includes(sortRef.current)) {
             setTaskPopup(false)
         }
     }
-
+    console.log(task)
     const addNewComment = (e) => {
         e.preventDefault()
         let { statuses } = currentCompany
@@ -54,6 +54,49 @@ const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
         setMessageInTask("")
     }
 
+    const choiceCorrectEmployee = (user) => {
+        currentCompany.statuses.forEach((status) => {
+            status.tasks.forEach((tsk) => {
+                if (tsk.id === task.id) {
+                    if (!tsk.userIdForTask) {
+                        tsk.userIdForTask = []
+                    }
+                    tsk.userIdForTask = user.id
+                    tsk.userNameForTask = user.name
+                }
+            })
+        })
+        setCurrentCompany((_) => {
+            return { ...currentCompany }
+        })
+    }
+
+    const setDateEndHandler = (e) => {
+        currentCompany.statuses.forEach((status) => {
+            status.tasks.forEach((tsk) => {
+                if (tsk.id === task.id) {
+                    tsk.dateEnd = e.target.value
+                }
+            })
+        })
+        setCurrentCompany((_) => {
+            return { ...currentCompany }
+        })
+    }
+
+    const setDateStartHandler = (e) => {
+        currentCompany.statuses.forEach((status) => {
+            status.tasks.forEach((tsk) => {
+                if (tsk.id === task.id) {
+                    tsk.dateStart = e.target.value
+                }
+            })
+        })
+        setCurrentCompany((_) => {
+            return { ...currentCompany }
+        })
+    }
+
     if (!taskPopup) {
         return
     }
@@ -70,6 +113,36 @@ const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
                         <h2 className={s.pages_popup__title_task}>
                             {task.text}
                         </h2>
+                        {task?.userNameForTask && (
+                            <Avatar currentUser={task.userNameForTask} />
+                        )}
+                        <input
+                            type="date"
+                            id="start"
+                            value={task?.dateEnd}
+                            onChange={setDateStartHandler}
+                        ></input>
+                        <input
+                            type="date"
+                            id="end"
+                            value={task?.dateEnd}
+                            onChange={setDateEndHandler}
+                        ></input>
+                        <button
+                            className={s.pages_popup__choice_employee}
+                            onClick={() =>
+                                setСhoiceEmployeePopup((prev) => !prev)
+                            }
+                        >
+                            {choiceEmployeePopup && (
+                                <ShowUsersPopup
+                                    users={currentCompany.users}
+                                    choiceCorrectEmployee={
+                                        choiceCorrectEmployee
+                                    }
+                                />
+                            )}
+                        </button>
                         <button
                             className={s.pages_popup__leave_btn}
                             onClick={() => setTaskPopup(false)}
@@ -104,10 +177,10 @@ const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
                                 Описание
                             </div>
                             {task &&
-                                task?.comment?.map((comm) => (
+                                task?.comment?.map((comm, index) => (
                                     <div
                                         className="description"
-                                        key={comm.userId}
+                                        key={`${comm.userId}${index}`}
                                     >
                                         <div className="description__avatar">
                                             <Avatar
@@ -145,4 +218,22 @@ const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
     )
 }
 
-export default TaskInfoPopup
+const ShowUsersPopup = ({ users, choiceCorrectEmployee }) => {
+    return (
+        <div className={s.show_users_popup}>
+            {users &&
+                users.map((user, index) => (
+                    <div
+                        key={index}
+                        className={s.show_users_popup__user}
+                        onClick={() => choiceCorrectEmployee(user)}
+                    >
+                        <Avatar currentUser={user.name} />
+                        <p>{user.name}</p>
+                    </div>
+                ))}
+        </div>
+    )
+}
+
+export default ShowUsersPopup
