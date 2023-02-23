@@ -1,16 +1,22 @@
 import React, { useContext, useEffect, useState } from "react"
 import { signOut } from "firebase/auth"
 import LetteredAvatar from "react-lettered-avatar"
-import { Link } from "react-router-dom"
+import { Link, Routes, Route } from "react-router-dom"
 
 import { auth, useAuth, useGetDataAboutUser } from "../firebase"
-import { arrayWithColors, HOME_PAGE_ROUTE, ROLES, TASKS } from "../utils/consts"
-import Employee from "./roles/Employee"
-import Supervisor from "./roles/Supervisor"
+import {
+    arrayWithColors,
+    BOARD,
+    HOME_PAGE_ROUTE,
+    MY_TASKS,
+    ROLES,
+    TASKS,
+} from "../utils/consts"
 import logOutImg from "../images/logout.svg"
 import SettingsPopup from "./Popups/SettingsPopup"
 import Statuses from "./Statuses"
 import { Context } from "../context"
+import UserCurrentTasks from "./UserCurrentTasks"
 
 const HomePage = () => {
     const [currentUser] = useAuth()
@@ -22,7 +28,7 @@ const HomePage = () => {
     // const [settingsPopup, setSettingsPopup] = useState(false)
     const { settingsPopup, setSettingsPopup } = useContext(Context)
     const [dataBySearch, setDataBySearch] = useState([])
-    const { currentCompany } = useContext(Context)
+    const { currentUserData, currentCompany } = useContext(Context)
 
     async function leaveFromAccaunt() {
         const leave = await signOut(auth)
@@ -66,12 +72,16 @@ const HomePage = () => {
                     className="navbar__refs"
                     onClick={(e) => setTitle(e.target.innerText)}
                 >
-                    <div className="navbar__ref">Главная</div>
-                    <div className="navbar__ref">Мои задачи</div>
-                    <div className="navbar__ref">Уведомления</div>{" "}
+                    <Link to={`${HOME_PAGE_ROUTE}${BOARD}`}>
+                        <div className="navbar__ref">Главная</div>
+                    </Link>
+                    <Link to={`${HOME_PAGE_ROUTE}${MY_TASKS}`}>
+                        <div className="navbar__ref">Мои задачи</div>
+                    </Link>
+                    <div className="navbar__ref">Сообщения</div>
                     {/*уведомления о выполнении и невыполнении сроков*/}
-                    <div className="navbar__ref">Чаты</div>
                     <div className="navbar__ref">Моя компания</div>
+                    <div className="navbar__ref">Календарь</div>
                 </div>
                 <div className="navbar__refs">
                     <p className="navbar__title">Избранные задачи</p>
@@ -80,12 +90,6 @@ const HomePage = () => {
             <div className="content">
                 <div className="content__header">
                     <div className="flex space-between align-center">
-                        {/* <div className="title">
-                            {currentCompany.name || title}
-                            {currentCompany?.name ? <>
-                                <p>{currentCompany.name} / </p>
-                            </> : <>{title}</>}
-                        </div> */}
                         {currentCompany ? (
                             <div className="title">
                                 <div className="title__users">
@@ -150,7 +154,6 @@ const HomePage = () => {
                                             {userName}
                                             <br />
                                             {currentUser?.email}
-                                            {/* {console.log(dataUser.name)} */}
                                         </div>
                                     </div>
                                     <div
@@ -164,7 +167,21 @@ const HomePage = () => {
                         </div>
                     </div>
                 </div>
-                <Statuses dataBySearch={dataBySearch} />
+                <Routes>
+                    <Route
+                        path="/board"
+                        element={<Statuses dataBySearch={dataBySearch} />}
+                    />
+                    <Route
+                        path={MY_TASKS}
+                        element={
+                            <Statuses
+                                dataBySearch={dataBySearch}
+                                userId={currentUserData?.id}
+                            />
+                        }
+                    ></Route>
+                </Routes>
             </div>
             {settingsPopup && (
                 <SettingsPopup

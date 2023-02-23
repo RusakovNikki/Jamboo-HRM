@@ -22,15 +22,11 @@ export const publicRoutes = [
 
 export const privateRoutes = [
     {
-        path: HOME_PAGE_ROUTE,
+        path: `${HOME_PAGE_ROUTE}/*`,
         Component: HomePage
     },
     {
         path: PROMO_ROUTE,
         Component: Promo
-    },
-    {
-        path: TASKS,
-        Component: Statuses
     }
 ]

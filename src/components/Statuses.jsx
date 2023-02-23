@@ -6,7 +6,7 @@ import { ROLES } from "../utils/consts"
 import { Context } from "../context"
 import Tasks from "./Tasks"
 
-const Statuses = ({ dataBySearch }) => {
+const Statuses = ({ dataBySearch, userId }) => {
     const [addStatusPopup, setAddStatusPopup] = useState(false)
     const [updateCompnent, setUpdateComponent] = useState(false)
     const [copyCompany, setCopyCompany] = useState()
@@ -25,7 +25,7 @@ const Statuses = ({ dataBySearch }) => {
         const company = await getDataCollection("company", user?.company?.name)
         setCurrentCompany(company)
     }
-
+    console.log(userId)
     const onClickButtonAddStatus = () => {
         if (!currentCompany) {
             setSettingsPopup(true)
