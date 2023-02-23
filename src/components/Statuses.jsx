@@ -63,6 +63,79 @@ const Statuses = ({ dataBySearch, userId }) => {
         }
     }, [currentUser])
 
+    if (userId && currentCompany) {
+        let filterCopyCompany = JSON.parse(JSON.stringify(currentCompany))
+        filterCopyCompany.statuses.forEach((status) => {
+            status.tasks = status.tasks.filter((task) => {
+                if (task.userIdForTask === userId) {
+                    return task
+                }
+            })
+        })
+
+        console.log(filterCopyCompany)
+        return (
+            <div className="main">
+                <div className="main__status_container">
+                    {copyCompany &&
+                    Object.keys(filterCopyCompany.statuses).length !== 0 ? (
+                        <>
+                            {copyCompany?.statuses.map((item, index) => (
+                                <Tasks
+                                    key={`${index}${item.nameStatus}`}
+                                    status={item.nameStatus}
+                                    item={item}
+                                    rows={filterCopyCompany.statuses}
+                                    user={currentUserData}
+                                />
+                            ))}
+                        </>
+                    ) : (
+                        <>
+                            {filterCopyCompany &&
+                            Object.keys(filterCopyCompany.statuses).length !==
+                                0 ? (
+                                <>
+                                    {filterCopyCompany?.statuses.map(
+                                        (item, index) => (
+                                            <Tasks
+                                                key={`${index}${item.nameStatus}`}
+                                                status={item.nameStatus}
+                                                item={item}
+                                                rows={
+                                                    filterCopyCompany.statuses
+                                                }
+                                                user={currentUserData}
+                                            />
+                                        )
+                                    )}
+                                </>
+                            ) : (
+                                <h2>Задач пока что нет, можно отдыхать 😄</h2>
+                            )}
+                        </>
+                    )}
+
+                    {currentUserData?.role === ROLES.SUPERVISOR && (
+                        <div
+                            className="add_status"
+                            onClick={onClickButtonAddStatus}
+                        >
+                            <div></div>
+                        </div>
+                    )}
+                    {addStatusPopup && (
+                        <AddNewStatus
+                            addStatusPopup={addStatusPopup}
+                            setAddStatusPopup={setAddStatusPopup}
+                            setUpdateComponent={setUpdateComponent}
+                        />
+                    )}
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div className="main">
             <div className="main__status_container">
