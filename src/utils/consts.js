@@ -6,6 +6,8 @@ export const HOME_PAGE_ROUTE = '/home'
 
 export const BOARD = '/board'
 
+export const CALENDAR = '/calendar'
+
 export const MY_TASKS = '/tasks'
 
 export const REG_ROUTE = '/reg'

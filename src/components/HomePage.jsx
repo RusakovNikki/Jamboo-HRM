@@ -7,6 +7,7 @@ import { auth, useAuth, useGetDataAboutUser } from "../firebase"
 import {
     arrayWithColors,
     BOARD,
+    CALENDAR,
     HOME_PAGE_ROUTE,
     MY_TASKS,
     ROLES,
@@ -17,6 +18,7 @@ import SettingsPopup from "./Popups/SettingsPopup"
 import Statuses from "./Statuses"
 import { Context } from "../context"
 import UserCurrentTasks from "./UserCurrentTasks"
+import CalendarPage from "./CalendarPage"
 
 const HomePage = () => {
     const [currentUser] = useAuth()
@@ -78,10 +80,12 @@ const HomePage = () => {
                     <Link to={`${HOME_PAGE_ROUTE}${MY_TASKS}`}>
                         <div className="navbar__ref">Мои задачи</div>
                     </Link>
+                    <Link to={`${HOME_PAGE_ROUTE}${CALENDAR}`}>
+                        <div className="navbar__ref">Календарь</div>
+                    </Link>
                     <div className="navbar__ref">Сообщения</div>
                     {/*уведомления о выполнении и невыполнении сроков*/}
                     <div className="navbar__ref">Моя компания</div>
-                    <div className="navbar__ref">Календарь</div>
                 </div>
                 <div className="navbar__refs">
                     <p className="navbar__title">Избранные задачи</p>
@@ -190,7 +194,8 @@ const HomePage = () => {
                                 userId={currentUserData?.id}
                             />
                         }
-                    ></Route>
+                    />
+                    <Route path={CALENDAR} element={<CalendarPage />} />
                 </Routes>
             </div>
             {settingsPopup && (
