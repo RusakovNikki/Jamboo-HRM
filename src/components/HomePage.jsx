@@ -90,29 +90,39 @@ const HomePage = () => {
             <div className="content">
                 <div className="content__header">
                     <div className="flex space-between align-center">
-                        {currentCompany ? (
-                            <div className="title">
-                                <div className="title__users">
-                                    <div>{currentCompany.name} / </div>
-                                    <div className="title__users_container">
-                                        {currentCompany.users.map(
-                                            (user, idx) => (
-                                                <div
-                                                    className="title__user"
-                                                    key={idx}
-                                                >
-                                                    <Avatar
-                                                        currentUser={user.name}
-                                                    />
-                                                </div>
-                                            )
-                                        )}
+                        {window.location.pathname ===
+                        `${HOME_PAGE_ROUTE}${BOARD}` ? (
+                            <>
+                                {currentCompany ? (
+                                    <div className="title">
+                                        <div className="title__users">
+                                            <div>{currentCompany.name} / </div>
+                                            <div className="title__users_container">
+                                                {currentCompany.users.map(
+                                                    (user, idx) => (
+                                                        <div
+                                                            className="title__user"
+                                                            key={idx}
+                                                        >
+                                                            <Avatar
+                                                                currentUser={
+                                                                    user.name
+                                                                }
+                                                            />
+                                                        </div>
+                                                    )
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                ) : (
+                                    <div className="title">{title}</div>
+                                )}
+                            </>
                         ) : (
                             <div className="title">{title}</div>
                         )}
+
                         <div className="flex align-center">
                             <div className="search content__search">
                                 <label

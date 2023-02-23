@@ -25,7 +25,7 @@ const Statuses = ({ dataBySearch, userId }) => {
         const company = await getDataCollection("company", user?.company?.name)
         setCurrentCompany(company)
     }
-    console.log(userId)
+
     const onClickButtonAddStatus = () => {
         if (!currentCompany) {
             setSettingsPopup(true)
@@ -73,7 +73,6 @@ const Statuses = ({ dataBySearch, userId }) => {
             })
         })
 
-        console.log(filterCopyCompany)
         return (
             <div className="main">
                 <div className="main__status_container">
@@ -87,6 +86,7 @@ const Statuses = ({ dataBySearch, userId }) => {
                                     item={item}
                                     rows={filterCopyCompany.statuses}
                                     user={currentUserData}
+                                    userId={userId}
                                 />
                             ))}
                         </>
@@ -106,6 +106,7 @@ const Statuses = ({ dataBySearch, userId }) => {
                                                     filterCopyCompany.statuses
                                                 }
                                                 user={currentUserData}
+                                                userId={userId}
                                             />
                                         )
                                     )}
@@ -116,7 +117,7 @@ const Statuses = ({ dataBySearch, userId }) => {
                         </>
                     )}
 
-                    {currentUserData?.role === ROLES.SUPERVISOR && (
+                    {currentUserData?.role === ROLES.SUPERVISOR && !userId && (
                         <div
                             className="add_status"
                             onClick={onClickButtonAddStatus}

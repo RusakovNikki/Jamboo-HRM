@@ -5,7 +5,7 @@ import { Context } from "../context"
 import { TaskInfoPopup } from "./Popups/TaskInfoPopup"
 import { Avatar } from "./HomePage"
 
-const Tasks = ({ status, item, rows, user }) => {
+const Tasks = ({ status, item, rows, user, userId }) => {
     const [taskPopup, setTaskPopup] = useState(false)
     const [taskInfoPopup, setTaskInfoPopup] = useState(false)
     const [task, setTask] = useState()
@@ -129,10 +129,15 @@ const Tasks = ({ status, item, rows, user }) => {
                         </div>
                     </div>
                 ))}
+            {!userId && (
+                <div
+                    className="add_new_task"
+                    onClick={() => setTaskPopup(true)}
+                >
+                    <p>Создать задачу</p>
+                </div>
+            )}
 
-            <div className="add_new_task" onClick={() => setTaskPopup(true)}>
-                <p>Создать задачу</p>
-            </div>
             {taskPopup && (
                 <AddNewTask
                     taskPopup={taskPopup}
