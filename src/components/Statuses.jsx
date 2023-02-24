@@ -6,7 +6,7 @@ import { ROLES } from "../utils/consts"
 import { Context } from "../context"
 import Tasks from "./Tasks"
 
-const Statuses = ({ copyCompany, userId }) => {
+const Statuses = ({ copyCompany, userId, searchTaskValue }) => {
     const [addStatusPopup, setAddStatusPopup] = useState(false)
     const [updateCompnent, setUpdateComponent] = useState(false)
     // const [copyCompany, setCopyCompany] = useState()
@@ -49,6 +49,20 @@ const Statuses = ({ copyCompany, userId }) => {
                 }
             })
         })
+        if (searchTaskValue) {
+            console.log(searchTaskValue)
+            filterCopyCompany.statuses.forEach((status) => {
+                status.tasks = status.tasks.filter((task) => {
+                    if (
+                        task.text
+                            .toLowerCase()
+                            .indexOf(searchTaskValue.toLowerCase()) === 0
+                    ) {
+                        return task
+                    }
+                })
+            })
+        }
 
         return (
             <div className="main">

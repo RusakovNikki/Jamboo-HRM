@@ -201,8 +201,8 @@ const HomePage = () => {
                         path={MY_TASKS}
                         element={
                             <Statuses
-                                copyCompany={copyCompany}
                                 userId={currentUserData?.id}
+                                searchTaskValue={searchTaskValue}
                             />
                         }
                     />

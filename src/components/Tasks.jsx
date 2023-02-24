@@ -88,10 +88,12 @@ const Tasks = ({ status, item, rows, user, userId }) => {
                 <p>
                     {status} <span>{item.tasks.length} Задачи</span>
                 </p>
-                <button
-                    className="status_item__del_btn"
-                    onClick={() => deleteStatus(item.id)}
-                ></button>
+                {!userId && (
+                    <button
+                        className="status_item__del_btn"
+                        onClick={() => deleteStatus(item.id)}
+                    ></button>
+                )}
             </div>
             {user &&
                 item &&
