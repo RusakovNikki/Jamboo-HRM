@@ -16,7 +16,6 @@ export const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
             setTaskPopup(false)
         }
     }
-    console.log(task)
     const addNewComment = (e) => {
         e.preventDefault()
         let { statuses } = currentCompany

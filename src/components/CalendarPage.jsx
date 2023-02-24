@@ -39,7 +39,6 @@ const CalendarPage = () => {
             })
             setDates(dates)
         }
-        console.log(dates)
     }, [])
 
     return (

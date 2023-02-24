@@ -44,7 +44,6 @@ const AddNewCompanyPopup = ({
         setReloadThisComponent((prev) => !prev)
     }
 
-    console.log(currentUser?.uid)
     if (!addNewCompanyPopup) {
         return
     }

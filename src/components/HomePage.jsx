@@ -57,7 +57,6 @@ const HomePage = () => {
                 return status
             })
 
-            console.log(copyCompany)
             setCopyCompany(copyCompany)
         }
     }

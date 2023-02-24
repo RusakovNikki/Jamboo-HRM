@@ -36,7 +36,6 @@ const AddNewStatus = ({
                 ],
             }
         })
-        console.log(currentCompany)
         setAddStatusPopup(false)
         setUpdateComponent((prev) => !prev)
     }
