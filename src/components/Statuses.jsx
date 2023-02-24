@@ -6,10 +6,10 @@ import { ROLES } from "../utils/consts"
 import { Context } from "../context"
 import Tasks from "./Tasks"
 
-const Statuses = ({ dataBySearch, userId }) => {
+const Statuses = ({ copyCompany, userId }) => {
     const [addStatusPopup, setAddStatusPopup] = useState(false)
     const [updateCompnent, setUpdateComponent] = useState(false)
-    const [copyCompany, setCopyCompany] = useState()
+    // const [copyCompany, setCopyCompany] = useState()
     const [currentUser] = useAuth()
     const {
         currentUserData,
@@ -33,29 +33,6 @@ const Statuses = ({ dataBySearch, userId }) => {
             setAddStatusPopup(true)
         }
     }
-
-    useEffect(() => {
-        if (dataBySearch.length) {
-            let copyCompany = JSON.parse(JSON.stringify(currentCompany))
-
-            copyCompany.statuses = copyCompany.statuses.filter((status) => {
-                const fil = status.tasks.filter((task) => {
-                    const filt = dataBySearch.filter((id) => {
-                        if (id === task.id) {
-                            return id
-                        }
-                    })
-                    if (filt.length) {
-                        return task
-                    }
-                })
-                if (fil.length) {
-                    return status
-                }
-            })
-            setCopyCompany(copyCompany)
-        }
-    }, [dataBySearch])
 
     useEffect(() => {
         if (currentUser) {

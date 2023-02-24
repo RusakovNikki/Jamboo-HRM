@@ -31,25 +31,36 @@ const HomePage = () => {
     const { settingsPopup, setSettingsPopup } = useContext(Context)
     const [dataBySearch, setDataBySearch] = useState([])
     const { currentUserData, currentCompany } = useContext(Context)
+    const [copyCompany, setCopyCompany] = useState()
 
     async function leaveFromAccaunt() {
         const leave = await signOut(auth)
     }
 
-    const searchTasks = (e) => {
-        setDataBySearch([])
-        currentCompany?.statuses?.forEach((status) => {
-            status.tasks.forEach((task) => {
-                if (task.text.indexOf(searchTaskValue) === 0) {
-                    setDataBySearch((data) => [...data, task.id])
-                }
+    const searchTasks = (value) => {
+        setSearchTaskValue(value)
+        if (!value) {
+            setCopyCompany(null)
+            return
+        }
+        if (currentCompany) {
+            const copyCompany = JSON.parse(JSON.stringify(currentCompany))
+            copyCompany.statuses = copyCompany.statuses.filter((status) => {
+                status.tasks = status.tasks.filter((task) => {
+                    if (
+                        task.text.toLowerCase().indexOf(value.toLowerCase()) ===
+                        0
+                    ) {
+                        return task
+                    }
+                })
+                return status
             })
-        })
-    }
 
-    useEffect(() => {
-        searchTasks()
-    }, [searchTaskValue])
+            console.log(copyCompany)
+            setCopyCompany(copyCompany)
+        }
+    }
 
     return (
         <div className="flex">
@@ -140,7 +151,7 @@ const HomePage = () => {
                                     className="search__input"
                                     value={searchTaskValue}
                                     onChange={(e) =>
-                                        setSearchTaskValue(e.target.value)
+                                        searchTasks(e.target.value)
                                     }
                                 />
                             </div>
@@ -184,13 +195,13 @@ const HomePage = () => {
                 <Routes>
                     <Route
                         path="/board"
-                        element={<Statuses dataBySearch={dataBySearch} />}
+                        element={<Statuses copyCompany={copyCompany} />}
                     />
                     <Route
                         path={MY_TASKS}
                         element={
                             <Statuses
-                                dataBySearch={dataBySearch}
+                                copyCompany={copyCompany}
                                 userId={currentUserData?.id}
                             />
                         }
