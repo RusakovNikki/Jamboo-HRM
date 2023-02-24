@@ -135,14 +135,30 @@ const Statuses = ({ copyCompany, userId, searchTaskValue }) => {
                         Object.keys(filterCopyCompany.statuses).length !== 0 ? (
                             <>
                                 {copyCompany?.statuses.map((item, index) => (
-                                    <Tasks
+                                    <Droppable
+                                        droppableId={item.id.toString()}
                                         key={`${index}${item.nameStatus}`}
-                                        status={item.nameStatus}
-                                        item={item}
-                                        rows={filterCopyCompany.statuses}
-                                        user={currentUserData}
-                                        userId={userId}
-                                    />
+                                    >
+                                        {(provided, snapshot) => {
+                                            return (
+                                                <div
+                                                    {...provided.droppableProps}
+                                                    ref={provided.innerRef}
+                                                >
+                                                    <Tasks
+                                                        status={item.nameStatus}
+                                                        item={item}
+                                                        rows={
+                                                            filterCopyCompany.statuses
+                                                        }
+                                                        user={currentUserData}
+                                                        userId={userId}
+                                                    />
+                                                    {provided.placeholder}
+                                                </div>
+                                            )
+                                        }}
+                                    </Droppable>
                                 ))}
                             </>
                         ) : (
@@ -228,13 +244,29 @@ const Statuses = ({ copyCompany, userId, searchTaskValue }) => {
                     Object.keys(currentCompany.statuses).length !== 0 ? (
                         <>
                             {copyCompany?.statuses.map((item, index) => (
-                                <Tasks
+                                <Droppable
+                                    droppableId={item.id.toString()}
                                     key={`${index}${item.nameStatus}`}
-                                    status={item.nameStatus}
-                                    item={item}
-                                    rows={currentCompany.statuses}
-                                    user={currentUserData}
-                                />
+                                >
+                                    {(provided, snapshot) => {
+                                        return (
+                                            <div
+                                                {...provided.droppableProps}
+                                                ref={provided.innerRef}
+                                            >
+                                                <Tasks
+                                                    status={item.nameStatus}
+                                                    item={item}
+                                                    rows={
+                                                        currentCompany.statuses
+                                                    }
+                                                    user={currentUserData}
+                                                />
+                                                {provided.placeholder}
+                                            </div>
+                                        )
+                                    }}
+                                </Droppable>
                             ))}
                         </>
                     ) : (
