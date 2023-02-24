@@ -128,66 +128,95 @@ const Statuses = ({ copyCompany, userId, searchTaskValue }) => {
         }
 
         return (
-            <div className="main">
-                <div className="main__status_container">
-                    {copyCompany &&
-                    Object.keys(filterCopyCompany.statuses).length !== 0 ? (
-                        <>
-                            {copyCompany?.statuses.map((item, index) => (
-                                <Tasks
-                                    key={`${index}${item.nameStatus}`}
-                                    status={item.nameStatus}
-                                    item={item}
-                                    rows={filterCopyCompany.statuses}
-                                    user={currentUserData}
-                                    userId={userId}
-                                />
-                            ))}
-                        </>
-                    ) : (
-                        <>
-                            {filterCopyCompany &&
-                            Object.keys(filterCopyCompany.statuses).length !==
-                                0 ? (
-                                <>
-                                    {filterCopyCompany?.statuses.map(
-                                        (item, index) => (
-                                            <Tasks
-                                                key={`${index}${item.nameStatus}`}
-                                                status={item.nameStatus}
-                                                item={item}
-                                                rows={
-                                                    filterCopyCompany.statuses
-                                                }
-                                                user={currentUserData}
-                                                userId={userId}
-                                            />
-                                        )
-                                    )}
-                                </>
-                            ) : (
-                                <h2>Задач пока что нет, можно отдыхать 😄</h2>
-                            )}
-                        </>
-                    )}
+            <DragDropContext onDragEnd={onDragEndHandler}>
+                <div className="main">
+                    <div className="main__status_container">
+                        {copyCompany &&
+                        Object.keys(filterCopyCompany.statuses).length !== 0 ? (
+                            <>
+                                {copyCompany?.statuses.map((item, index) => (
+                                    <Tasks
+                                        key={`${index}${item.nameStatus}`}
+                                        status={item.nameStatus}
+                                        item={item}
+                                        rows={filterCopyCompany.statuses}
+                                        user={currentUserData}
+                                        userId={userId}
+                                    />
+                                ))}
+                            </>
+                        ) : (
+                            <>
+                                {filterCopyCompany &&
+                                Object.keys(filterCopyCompany.statuses)
+                                    .length !== 0 ? (
+                                    <>
+                                        {filterCopyCompany?.statuses.map(
+                                            (item, index) => (
+                                                <Droppable
+                                                    droppableId={item.id.toString()}
+                                                    key={`${index}${item.nameStatus}`}
+                                                >
+                                                    {(provided, snapshot) => {
+                                                        return (
+                                                            <div
+                                                                {...provided.droppableProps}
+                                                                ref={
+                                                                    provided.innerRef
+                                                                }
+                                                            >
+                                                                <Tasks
+                                                                    status={
+                                                                        item.nameStatus
+                                                                    }
+                                                                    item={item}
+                                                                    rows={
+                                                                        filterCopyCompany.statuses
+                                                                    }
+                                                                    user={
+                                                                        currentUserData
+                                                                    }
+                                                                    userId={
+                                                                        userId
+                                                                    }
+                                                                />
+                                                                {
+                                                                    provided.placeholder
+                                                                }
+                                                            </div>
+                                                        )
+                                                    }}
+                                                </Droppable>
+                                            )
+                                        )}
+                                    </>
+                                ) : (
+                                    <h2>
+                                        Задач пока что нет, можно отдыхать 😄
+                                    </h2>
+                                )}
+                            </>
+                        )}
 
-                    {currentUserData?.role === ROLES.SUPERVISOR && !userId && (
-                        <div
-                            className="add_status"
-                            onClick={onClickButtonAddStatus}
-                        >
-                            <div></div>
-                        </div>
-                    )}
-                    {addStatusPopup && (
-                        <AddNewStatus
-                            addStatusPopup={addStatusPopup}
-                            setAddStatusPopup={setAddStatusPopup}
-                            setUpdateComponent={setUpdateComponent}
-                        />
-                    )}
+                        {currentUserData?.role === ROLES.SUPERVISOR &&
+                            !userId && (
+                                <div
+                                    className="add_status"
+                                    onClick={onClickButtonAddStatus}
+                                >
+                                    <div></div>
+                                </div>
+                            )}
+                        {addStatusPopup && (
+                            <AddNewStatus
+                                addStatusPopup={addStatusPopup}
+                                setAddStatusPopup={setAddStatusPopup}
+                                setUpdateComponent={setUpdateComponent}
+                            />
+                        )}
+                    </div>
                 </div>
-            </div>
+            </DragDropContext>
         )
     }
 

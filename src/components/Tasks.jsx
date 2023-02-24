@@ -10,12 +10,6 @@ const Tasks = ({ status, item, rows, user, userId }) => {
     const [taskPopup, setTaskPopup] = useState(false)
     const [taskInfoPopup, setTaskInfoPopup] = useState(false)
     const [task, setTask] = useState()
-    // let [currentStatus, setCurrentStatus] = useState()
-    let currentStatus = useRef(null)
-    let currentTask = useRef(null)
-    let secondTask = useRef(null)
-    let secondStatus = useRef(null)
-    // const [currentTask, setCurrentTask] = useState()
     const { currentCompany, setCurrentCompany } = useContext(Context)
 
     const deleteStatus = (statusId) => {
