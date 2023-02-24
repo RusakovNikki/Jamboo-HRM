@@ -85,7 +85,7 @@ const HomePage = () => {
                     className="navbar__refs"
                     onClick={(e) => setTitle(e.target.innerText)}
                 >
-                    <Link to={`${HOME_PAGE_ROUTE}${BOARD}`}>
+                    <Link to={HOME_PAGE_ROUTE}>
                         <div className="navbar__ref">Главная</div>
                     </Link>
                     <Link to={`${HOME_PAGE_ROUTE}${MY_TASKS}`}>
@@ -105,8 +105,7 @@ const HomePage = () => {
             <div className="content">
                 <div className="content__header">
                     <div className="flex space-between align-center">
-                        {window.location.pathname ===
-                        `${HOME_PAGE_ROUTE}${BOARD}` ? (
+                        {window.location.pathname === HOME_PAGE_ROUTE ? (
                             <>
                                 {currentCompany ? (
                                     <div className="title">
@@ -194,7 +193,7 @@ const HomePage = () => {
                 </div>
                 <Routes>
                     <Route
-                        path="/board"
+                        path="/"
                         element={<Statuses copyCompany={copyCompany} />}
                     />
                     <Route

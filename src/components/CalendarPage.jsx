@@ -11,7 +11,19 @@ const CalendarPage = () => {
     let { currentUserData, currentCompany, setCurrentCompany } =
         useContext(Context)
     const [dates, setDates] = useState([])
-    console.log(dates)
+
+    const colorPicker = (dateEnd) => {
+        let dateNow = new Date().getTime()
+        dateEnd = new Date(dateEnd).getTime()
+        if (dateEnd - dateNow < 24 * 3600 * 1000 * 3 && dateEnd - dateNow > 0) {
+            return "yellow"
+        }
+        if (dateEnd - dateNow < 0) {
+            return "red"
+        }
+        return "#378006"
+    }
+
     useState(() => {
         if (currentCompany) {
             let copyCompany = JSON.parse(JSON.stringify(currentCompany))
@@ -21,6 +33,7 @@ const CalendarPage = () => {
                         title: task.text,
                         start: task.dateStart,
                         end: task.dateEnd,
+                        color: colorPicker(task.dateEnd),
                     })
                 })
             })
@@ -32,7 +45,6 @@ const CalendarPage = () => {
     return (
         <FullCalendar
             locale={esLocale}
-            defaultView="dayGridMonth"
             plugins={[multiMonthPlugin, dayGridPlugin]}
             events={dates}
             initialView="multiMonthYear"
