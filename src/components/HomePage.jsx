@@ -9,6 +9,7 @@ import {
     BOARD,
     CALENDAR,
     HOME_PAGE_ROUTE,
+    MY_COMPANY,
     MY_TASKS,
     ROLES,
     TASKS,
@@ -19,6 +20,7 @@ import Statuses from "./Statuses"
 import { Context } from "../context"
 import UserCurrentTasks from "./UserCurrentTasks"
 import CalendarPage from "./CalendarPage"
+import CompanyStatistics from "./CompanyStatistics"
 
 const HomePage = () => {
     const [currentUser] = useAuth()
@@ -95,7 +97,9 @@ const HomePage = () => {
                     </Link>
                     <div className="navbar__ref">Сообщения</div>
                     {/*уведомления о выполнении и невыполнении сроков*/}
-                    <div className="navbar__ref">Моя компания</div>
+                    <Link to={`${HOME_PAGE_ROUTE}${MY_COMPANY}`}>
+                        <div className="navbar__ref">Моя компания</div>
+                    </Link>
                 </div>
                 <div className="navbar__refs">
                     <p className="navbar__title">Избранные задачи</p>
@@ -204,6 +208,7 @@ const HomePage = () => {
                             />
                         }
                     />
+                    <Route path={MY_COMPANY} element={<CompanyStatistics />} />
                     <Route path={CALENDAR} element={<CalendarPage />} />
                 </Routes>
             </div>

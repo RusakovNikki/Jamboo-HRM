@@ -99,7 +99,9 @@
 }
 .content {
     width: 70%;
-    margin: 10px 15px 30px 25px;
+    margin: 10px 15px 0px 25px;
+    height: 98vh;
+    box-sizing: border-box;
 
     &__main {
         height: calc(100% - 17px);
@@ -616,5 +618,79 @@
     &__avatar {
         transform: scale(0.7);
         cursor: pointer;
+    }
+}
+
+.companyStatistics {
+    width: 100%;
+    height: calc(100% - 55px);
+    display: flex;
+
+    &__btns {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    &__diagrams {
+        width: 50%;
+        height: 100%;
+        background-color: blue;
+    }
+
+    &__budget {
+        width: 50%;
+        height: 100%;
+        padding: 10px 20px;
+        box-sizing: border-box;
+    }
+}
+
+.history_list {
+    width: 100%;
+    overflow-y: scroll;
+    height: calc(100% - 67px);
+
+    &__title {
+        font-size: 36px;
+        margin: 10px 0;
+    }
+
+    &__item {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid lightgray;
+        padding: 20px 10px;
+    }
+
+    &__type {
+        width: 40px;
+        height: 40px;
+        margin-right: 5px;
+        background-position: center;
+        background-repeat: no-repeat;
+
+        &_salary {
+            background-image: url("./images/salary.svg");
+            background-size: 40px;
+        }
+
+        &_profit {
+            background-image: url("./images/profit.svg");
+            background-size: 35px;
+        }
+    }
+
+    &__title_item {
+        display: flex;
+
+        p {
+            font-size: 20px;
+        }
+    }
+
+    &__description {
+        font-size: 12px;
     }
 }

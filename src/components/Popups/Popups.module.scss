@@ -122,6 +122,12 @@
         background-color: #fff;
         border-radius: 20px;
     }
+
+    &__budget_container {
+        width: 50%;
+        height: 50%;
+    }
+
     &__center {
         position: absolute;
         left: 50%;
@@ -132,6 +138,8 @@
     &__title {
         margin: 28px;
         position: relative;
+        display: flex;
+        justify-content: space-between;
         p {
             font-weight: 400;
             font-size: 24px;

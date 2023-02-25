@@ -56,8 +56,6 @@ const Statuses = ({ copyCompany, userId, searchTaskValue }) => {
 
             destinationStatus.tasks.splice(destination.index, 0, removed)
 
-            console.log(destinationStatus)
-
             currentCompany.statuses = currentCompany.statuses.map((stat) => {
                 if (stat.id === sourceStatus.id) {
                     stat.tasks = stat.tasks.filter((task) => {

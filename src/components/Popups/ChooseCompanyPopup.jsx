@@ -52,8 +52,10 @@ const ChooseCompanyPopup = ({
             )
         }
 
+        const positionOnJob = prompt("Укажите должность в компании")
+
         const user = doc(db, "aboutUser", currentUser.uid)
-        await updateDoc(user, { company: companyInList })
+        await updateDoc(user, { company: companyInList, positionOnJob })
 
         const userSnap = await getDoc(user)
         userRef.current = userSnap.data()
