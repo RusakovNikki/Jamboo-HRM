@@ -1,16 +1,50 @@
 import React, { useState } from "react"
 import { useContext } from "react"
+import { Pie } from "react-chartjs-2"
+import Chart from "chart.js/auto"
+import { CategoryScale } from "chart.js"
+
 import { Context } from "../context"
 import AddBudgetPopup from "./Popups/AddBudgetPopup"
 
 const CompanyStatistics = () => {
     const [addBudgetPopup, setAddBudgetPopup] = useState(false)
     let { currentUserData, currentCompany } = useContext(Context)
-    console.log(currentCompany?.budget)
+
+    Chart.defaults.backgroundColor = "red"
+    Chart.register(CategoryScale)
+
+    let expenses = 0,
+        profit = 0
+    if (currentCompany?.budget) {
+        currentCompany.budget.forEach((item) => {
+            if (item.type === "expenses") {
+                expenses += +item.price
+            }
+            if (item.type === "profit") {
+                profit += +item.price
+            }
+        })
+    }
     return (
         <div className="companyStatistics">
             <div className="companyStatistics__diagrams">
-                <div className="companyStatistics__circle_diagram"></div>
+                <div className="companyStatistics__circle_diagram">
+                    <Pie
+                        data={{
+                            labels: ["Доходы", "Расходы"],
+                            datasets: [
+                                {
+                                    label: "Сумма: ",
+                                    data: [profit, expenses],
+                                    borderWidth: 5,
+                                },
+                            ],
+                            backgroundColor: ["green", "red"],
+                            borderColor: "black",
+                        }}
+                    />
+                </div>
                 <div className="companyStatistics__graph"></div>
             </div>
             <div className="companyStatistics__budget">
