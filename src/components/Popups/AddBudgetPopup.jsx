@@ -31,7 +31,7 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
                 price: priceForJob,
                 type: typeBudget,
                 description: descForBudget,
-                date,
+                date: date.split("-").reverse().join("."),
             })
         } else {
             currentCompany.budget.push({
@@ -39,7 +39,7 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
                 price: priceForJob,
                 type,
                 description: user.positionOnJob,
-                date,
+                date: date.split("-").reverse().join("."),
             })
         }
 

@@ -31,7 +31,7 @@ const CompanyStatistics = () => {
                             return (
                                 <>
                                     <div className="history_list__date">
-                                        <p>25.04.2002</p>
+                                        <p>{item.date}</p>
                                         <div className="history_list__decorate"></div>
                                     </div>
                                     <div
