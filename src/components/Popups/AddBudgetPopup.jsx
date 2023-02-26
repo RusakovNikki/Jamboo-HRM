@@ -14,6 +14,7 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
     const [typeBudget, setTypeBudget] = useState()
     const [titleForbudget, setTitleForbudget] = useState()
     const [descForBudget, setDescForBudget] = useState()
+    const [date, setDate] = useState()
     const hidePopup = (event) => {
         if (!event.nativeEvent.path.includes(sortRef.current)) {
             setSettingsPopup(false)
@@ -30,6 +31,7 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
                 price: priceForJob,
                 type: typeBudget,
                 description: descForBudget,
+                date,
             })
         } else {
             currentCompany.budget.push({
@@ -37,6 +39,7 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
                 price: priceForJob,
                 type,
                 description: user.positionOnJob,
+                date,
             })
         }
 
@@ -63,6 +66,7 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
         })
     }
 
+    console.log(date)
     return (
         <div className={`${s.pages_popup} ${s.smooth}`} onClick={hidePopup}>
             <div
@@ -130,6 +134,19 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
                                 className="form__input"
                                 onChange={(e) => setPriceForJob(e.target.value)}
                             />
+                            <input
+                                type="date"
+                                id="start"
+                                value={date}
+                                onChange={(e) => {
+                                    setDate(
+                                        e.target.value
+                                        // .split("-")
+                                        // .reverse()
+                                        // .join(".")
+                                    )
+                                }}
+                            ></input>
                             <Selectrix
                                 placeholder="Пожалуйста выберете тип.."
                                 materialize={true}
@@ -187,6 +204,19 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
                                             setPriceForJob(e.target.value)
                                         }
                                     />
+                                    <input
+                                        type="date"
+                                        id="start"
+                                        value={date}
+                                        onChange={(e) =>
+                                            setDate(
+                                                e.target.value
+                                                // .split("-")
+                                                // .reverse()
+                                                // .join(".")
+                                            )
+                                        }
+                                    ></input>
                                     <button
                                         className="button"
                                         onClick={() =>

@@ -29,22 +29,31 @@ const CompanyStatistics = () => {
                     {currentCompany?.budget &&
                         currentCompany.budget.map((item, index) => {
                             return (
-                                <div className="history_list__item" key={index}>
-                                    <div className="history_list__title_item">
-                                        <div
-                                            className={`history_list__type history_list__type_${item.type}`}
-                                        ></div>
-                                        <div>
-                                            <p>{item.name}</p>
-                                            <div className="history_list__description">
-                                                {item.description}
+                                <>
+                                    <div className="history_list__date">
+                                        <p>25.04.2002</p>
+                                        <div className="history_list__decorate"></div>
+                                    </div>
+                                    <div
+                                        className="history_list__item"
+                                        key={index}
+                                    >
+                                        <div className="history_list__title_item">
+                                            <div
+                                                className={`history_list__type history_list__type_${item.type}`}
+                                            ></div>
+                                            <div>
+                                                <p>{item.name}</p>
+                                                <div className="history_list__description">
+                                                    {item.description}
+                                                </div>
                                             </div>
                                         </div>
+                                        <div className="history_list__price">
+                                            {item.price} ₽
+                                        </div>
                                     </div>
-                                    <div className="history_list__price">
-                                        {item.price} ₽
-                                    </div>
-                                </div>
+                                </>
                             )
                         })}
                 </div>
