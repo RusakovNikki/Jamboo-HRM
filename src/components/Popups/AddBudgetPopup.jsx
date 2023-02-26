@@ -42,6 +42,17 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
                 date: date.split("-").reverse().join("."),
             })
         }
+        debugger
+        currentCompany.budget = currentCompany.budget
+            .sort((a, b) => {
+                return b.date.split(".")[0] - a.date.split(".")[0]
+            })
+            .sort((a, b) => {
+                return b.date.split(".")[1] - a.date.split(".")[1]
+            })
+            .sort((a, b) => {
+                return b.date.split(".")[2] - a.date.split(".")[2]
+            })
 
         setCurrentCompany((_) => {
             return { ...currentCompany }
@@ -66,7 +77,6 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
         })
     }
 
-    console.log(date)
     return (
         <div className={`${s.pages_popup} ${s.smooth}`} onClick={hidePopup}>
             <div

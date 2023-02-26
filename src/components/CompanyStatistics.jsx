@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useContext } from "react"
 import { Pie } from "react-chartjs-2"
 import Chart from "chart.js/auto"
@@ -49,6 +49,7 @@ const CompanyStatistics = () => {
             }
         })
     }
+
     function formatDate(date) {
         var dd = date.getDate()
         if (dd < 10) dd = "0" + dd
