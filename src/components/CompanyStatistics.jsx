@@ -1,9 +1,12 @@
 import React, { useState } from "react"
+import { useContext } from "react"
+import { Context } from "../context"
 import AddBudgetPopup from "./Popups/AddBudgetPopup"
 
 const CompanyStatistics = () => {
     const [addBudgetPopup, setAddBudgetPopup] = useState(false)
-
+    let { currentUserData, currentCompany } = useContext(Context)
+    console.log(currentCompany?.budget)
     return (
         <div className="companyStatistics">
             <div className="companyStatistics__diagrams">
@@ -23,126 +26,27 @@ const CompanyStatistics = () => {
                     </div>
                 </div>
                 <div className="companyStatistics__history_list history_list">
-                    <div className="history_list__item">
-                        <div className="history_list__title_item">
-                            <div className="history_list__type history_list__type_profit"></div>
-                            <div>
-                                <p>ООО "ГРИНСАЙТ"</p>
-                                <div className="history_list__description">
-                                    Заказ ПО
+                    {currentCompany?.budget &&
+                        currentCompany.budget.map((item, index) => {
+                            return (
+                                <div className="history_list__item" key={index}>
+                                    <div className="history_list__title_item">
+                                        <div
+                                            className={`history_list__type history_list__type_${item.type}`}
+                                        ></div>
+                                        <div>
+                                            <p>{item.name}</p>
+                                            <div className="history_list__description">
+                                                {item.description}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="history_list__price">
+                                        {item.price} ₽
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="history_list__price">130.000 ₽</div>
-                    </div>
-                    <div className="history_list__item">
-                        <div className="history_list__title_item">
-                            <div className="history_list__type history_list__type_salary"></div>
-                            <div>
-                                <p>Никита Р.</p>
-                                <div className="history_list__description">
-                                    Frontend-разработчик
-                                </div>
-                            </div>
-                        </div>
-                        <div className="history_list__price">130.000 ₽</div>
-                    </div>
-                    <div className="history_list__item">
-                        <div className="history_list__title_item">
-                            <div className="history_list__type history_list__type_salary"></div>
-                            <div>
-                                <p>Никита Р.</p>
-                                <div className="history_list__description">
-                                    Frontend-разработчик
-                                </div>
-                            </div>
-                        </div>
-                        <div className="history_list__price">130.000 ₽</div>
-                    </div>
-                    <div className="history_list__item">
-                        <div className="history_list__title_item">
-                            <div className="history_list__type history_list__type_salary"></div>
-                            <div>
-                                <p>Никита Р.</p>
-                                <div className="history_list__description">
-                                    Frontend-разработчик
-                                </div>
-                            </div>
-                        </div>
-                        <div className="history_list__price">130.000 ₽</div>
-                    </div>
-                    <div className="history_list__item">
-                        <div className="history_list__title_item">
-                            <div className="history_list__type history_list__type_salary"></div>
-                            <div>
-                                <p>Никита Р.</p>
-                                <div className="history_list__description">
-                                    Frontend-разработчик
-                                </div>
-                            </div>
-                        </div>
-                        <div className="history_list__price">130.000 ₽</div>
-                    </div>
-                    <div className="history_list__item">
-                        <div className="history_list__title_item">
-                            <div className="history_list__type history_list__type_salary"></div>
-                            <div>
-                                <p>Никита Р.</p>
-                                <div className="history_list__description">
-                                    Frontend-разработчик
-                                </div>
-                            </div>
-                        </div>
-                        <div className="history_list__price">130.000 ₽</div>
-                    </div>
-                    <div className="history_list__item">
-                        <div className="history_list__title_item">
-                            <div className="history_list__type history_list__type_salary"></div>
-                            <div>
-                                <p>Никита Р.</p>
-                                <div className="history_list__description">
-                                    Frontend-разработчик
-                                </div>
-                            </div>
-                        </div>
-                        <div className="history_list__price">130.000 ₽</div>
-                    </div>
-                    <div className="history_list__item">
-                        <div className="history_list__title_item">
-                            <div className="history_list__type history_list__type_salary"></div>
-                            <div>
-                                <p>Никита Р.</p>
-                                <div className="history_list__description">
-                                    Frontend-разработчик
-                                </div>
-                            </div>
-                        </div>
-                        <div className="history_list__price">130.000 ₽</div>
-                    </div>
-                    <div className="history_list__item">
-                        <div className="history_list__title_item">
-                            <div className="history_list__type history_list__type_salary"></div>
-                            <div>
-                                <p>Никита Р.</p>
-                                <div className="history_list__description">
-                                    Frontend-разработчик
-                                </div>
-                            </div>
-                        </div>
-                        <div className="history_list__price">130.000 ₽</div>
-                    </div>
-                    <div className="history_list__item">
-                        <div className="history_list__title_item">
-                            <div className="history_list__type history_list__type_salary"></div>
-                            <div>
-                                <p>Никита Р.</p>
-                                <div className="history_list__description">
-                                    Frontend-разработчик
-                                </div>
-                            </div>
-                        </div>
-                        <div className="history_list__price">130.000 ₽</div>
-                    </div>
+                            )
+                        })}
                 </div>
             </div>
             {addBudgetPopup && (

@@ -11,22 +11,35 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
     const { currentCompany, setCurrentCompany } = useContext(Context)
     const [userBudgetKey, setUserBudgetKey] = useState()
     const [priceForJob, setPriceForJob] = useState()
+    const [typeBudget, setTypeBudget] = useState()
+    const [titleForbudget, setTitleForbudget] = useState()
+    const [descForBudget, setDescForBudget] = useState()
     const hidePopup = (event) => {
         if (!event.nativeEvent.path.includes(sortRef.current)) {
             setSettingsPopup(false)
         }
     }
 
-    const updateCompanyBudget = (type) => {
+    const updateCompanyBudget = (type, reason = "") => {
         if (!currentCompany.budget) {
             currentCompany.budget = []
         }
-        currentCompany.budget.push({
-            name: user.name,
-            price: priceForJob,
-            type,
-            description: user.positionOnJob,
-        })
+        if (reason) {
+            currentCompany.budget.push({
+                name: titleForbudget,
+                price: priceForJob,
+                type: typeBudget,
+                description: descForBudget,
+            })
+        } else {
+            currentCompany.budget.push({
+                name: user.name,
+                price: priceForJob,
+                type,
+                description: user.positionOnJob,
+            })
+        }
+
         setCurrentCompany((_) => {
             return { ...currentCompany }
         })
@@ -95,12 +108,27 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
                             <input
                                 type="text"
                                 placeholder="Введите данные"
+                                value={titleForbudget}
                                 className="form__input"
+                                onChange={(e) =>
+                                    setTitleForbudget(e.target.value)
+                                }
                             />
                             <input
                                 type="text"
                                 placeholder="Введите описание"
+                                value={descForBudget}
                                 className="form__input"
+                                onChange={(e) =>
+                                    setDescForBudget(e.target.value)
+                                }
+                            />
+                            <input
+                                placeholder="Бюджет..."
+                                type="text"
+                                value={priceForJob}
+                                className="form__input"
+                                onChange={(e) => setPriceForJob(e.target.value)}
                             />
                             <Selectrix
                                 placeholder="Пожалуйста выберете тип.."
@@ -115,9 +143,16 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
                                         label: "Доходы",
                                     },
                                 ]}
-                                onChange={(value) => console.log(value.key)}
+                                onChange={(value) => setTypeBudget(value.key)}
                             />
-                            <button className="button">Добавить</button>
+                            <button
+                                className="button"
+                                onClick={() =>
+                                    updateCompanyBudget(typeBudget, "company")
+                                }
+                            >
+                                Добавить
+                            </button>
                         </div>
                     )}
                     {isJobBudget && (
