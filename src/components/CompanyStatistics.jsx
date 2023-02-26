@@ -14,33 +14,73 @@ const CompanyStatistics = () => {
     Chart.defaults.backgroundColor = "red"
     Chart.register(CategoryScale)
 
+    const setCurrentMonth = () => {
+        let startDate = new Date()
+        let endDate = new Date()
+        startDate.setDate(1)
+        endDate.setDate(1)
+        endDate.setMonth(endDate.getMonth() + 1)
+        endDate.setTime(endDate.getTime() - 24 * 3600 * 1000)
+
+        startDate = formatDate(startDate)
+        endDate = formatDate(endDate)
+        return {
+            startDate,
+            endDate,
+        }
+    }
+
     let expenses = 0,
         profit = 0
     if (currentCompany?.budget) {
+        let { startDate } = setCurrentMonth()
+        startDate = startDate.split(".")
+
         currentCompany.budget.forEach((item) => {
-            if (item.type === "expenses") {
-                expenses += +item.price
-            }
-            if (item.type === "profit") {
-                profit += +item.price
+            let dateArr = item.date.split(".")
+
+            if (dateArr[1] === startDate[1] && dateArr[2] === startDate[2]) {
+                if (item.type === "expenses") {
+                    expenses += +item.price
+                }
+                if (item.type === "profit") {
+                    profit += +item.price
+                }
             }
         })
     }
+    function formatDate(date) {
+        var dd = date.getDate()
+        if (dd < 10) dd = "0" + dd
+
+        var mm = date.getMonth() + 1
+        if (mm < 10) mm = "0" + mm
+
+        var yy = date.getFullYear()
+        if (yy < 10) yy = "0" + yy
+
+        return dd + "." + mm + "." + yy
+    }
+
     return (
         <div className="companyStatistics">
             <div className="companyStatistics__diagrams">
                 <div className="companyStatistics__circle_diagram">
+                    <h1 className="companyStatistics__title">
+                        Расчёт за текущий месяц
+                    </h1>
                     <Pie
                         data={{
                             labels: ["Доходы", "Расходы"],
                             datasets: [
                                 {
                                     label: "Сумма: ",
-                                    data: [profit, expenses],
+                                    data: [profit, expenses, 0],
                                     borderWidth: 5,
+                                    color: ["red", "green"],
                                 },
                             ],
-                            backgroundColor: ["green", "red"],
+                            backgroundColor: "black",
                             borderColor: "black",
                         }}
                     />
