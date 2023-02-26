@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useContext } from "react"
-import { Pie } from "react-chartjs-2"
+import { Pie, Line } from "react-chartjs-2"
 import Chart from "chart.js/auto"
 import { CategoryScale } from "chart.js"
 
@@ -62,7 +62,14 @@ const CompanyStatistics = () => {
 
         return dd + "." + mm + "." + yy
     }
-
+    let datesInThisYear = currentCompany?.budget
+        .filter((item) => {
+            let date = item.date.split(".")
+            if (+date[2] === new Date().getFullYear()) {
+                return item.date[1]
+            }
+        })
+        ?.reverse()
     return (
         <div className="companyStatistics">
             <div className="companyStatistics__diagrams">
@@ -76,7 +83,7 @@ const CompanyStatistics = () => {
                             datasets: [
                                 {
                                     label: "Сумма: ",
-                                    data: [profit, expenses, 0],
+                                    data: [profit, expenses],
                                     borderWidth: 5,
                                     color: ["red", "green"],
                                 },
@@ -86,7 +93,31 @@ const CompanyStatistics = () => {
                         }}
                     />
                 </div>
-                <div className="companyStatistics__graph"></div>
+                <div className="companyStatistics__graph">
+                    <h1 className="companyStatistics__title">
+                        График дохода за текущий год
+                    </h1>
+                    <Line
+                        width={1000}
+                        height={800}
+                        data={{
+                            labels: datesInThisYear?.map((date) => date.date),
+                            datasets: [
+                                {
+                                    label: "Сумма: ",
+                                    data: datesInThisYear?.map((date) => {
+                                        if (date.type === "expenses") {
+                                            return -Number(date.price)
+                                        }
+                                        return Number(date.price)
+                                    }),
+                                    borderWidth: 5,
+                                    color: ["red", "green"],
+                                },
+                            ],
+                        }}
+                    />
+                </div>
             </div>
             <div className="companyStatistics__budget">
                 <div className="companyStatistics__btns">

@@ -102,6 +102,8 @@
     margin: 10px 15px 0px 25px;
     height: 98vh;
     box-sizing: border-box;
+    overflow-y: scroll;
+    overflow-x: hidden;
 
     &__main {
         height: calc(100% - 17px);
