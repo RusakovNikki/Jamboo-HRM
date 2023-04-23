@@ -21,7 +21,7 @@ const AddNewStatus = ({
     } = useContext(Context)
 
     const hidePopup = (event) => {
-        if (!event.nativeEvent.path.includes(sortRef.current)) {
+        if (!sortRef.current.innerHTML.includes(event.target.innerHTML)) {
             setAddStatusPopup(false)
         }
     }

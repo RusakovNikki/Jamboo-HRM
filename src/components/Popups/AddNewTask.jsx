@@ -11,7 +11,7 @@ const AddNewTask = ({ taskPopup, setTaskPopup, item, rows }) => {
     const { currentUserData, setCurrentCompany } = useContext(Context)
 
     const hidePopup = (event) => {
-        if (!event.nativeEvent.path.includes(sortRef.current)) {
+        if (!sortRef.current.innerHTML.includes(event.target.innerHTML)) {
             setTaskPopup(false)
         }
     }

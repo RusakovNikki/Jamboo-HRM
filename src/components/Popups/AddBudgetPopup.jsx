@@ -16,7 +16,7 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
     const [descForBudget, setDescForBudget] = useState()
     const [date, setDate] = useState()
     const hidePopup = (event) => {
-        if (!event.nativeEvent.path.includes(sortRef.current)) {
+        if (!sortRef.current.innerHTML.includes(event.target.innerHTML)) {
             setSettingsPopup(false)
         }
     }

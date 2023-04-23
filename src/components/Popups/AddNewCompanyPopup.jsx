@@ -17,7 +17,7 @@ const AddNewCompanyPopup = ({
     const [passwordCompany, setPasswordCompany] = useState("")
 
     const hidePopup = (event) => {
-        if (!event.nativeEvent.path.includes(sortRef.current)) {
+        if (!sortRef.current.innerHTML.includes(event.target.innerHTML)) {
             setAddNewCompanyPopup(false)
         }
     }

@@ -22,10 +22,10 @@ export const ROLES = {
 }
 
 export const arrayWithColors = [
-    "#2ecc71",
-    "#3498db",
-    "#8e44ad",
     "#e67e22",
+    "#3498db",
+    "#2ecc71",
+    "#8e44ad",
     "#e74c3c",
     "#1abc9c",
     "#2c3e50",

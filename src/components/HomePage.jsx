@@ -92,17 +92,17 @@ const HomePage = () => {
                     <Link to={`${HOME_PAGE_ROUTE}${MY_TASKS}`}>
                         <div className="navbar__ref">Мои задачи</div>
                     </Link>
-                    <Link to={`${HOME_PAGE_ROUTE}${CALENDAR}`}>
-                        <div className="navbar__ref">Календарь</div>
-                    </Link>
                     <div className="navbar__ref">Сообщения</div>
-                    {/*уведомления о выполнении и невыполнении сроков*/}
-                    <Link to={`${HOME_PAGE_ROUTE}${MY_COMPANY}`}>
-                        <div className="navbar__ref">Моя компания</div>
-                    </Link>
-                </div>
-                <div className="navbar__refs">
-                    <p className="navbar__title">Избранные задачи</p>
+                    {userRole === ROLES.SUPERVISOR && (
+                        <>
+                            <Link to={`${HOME_PAGE_ROUTE}${CALENDAR}`}>
+                                <div className="navbar__ref">Календарь</div>
+                            </Link>
+                            <Link to={`${HOME_PAGE_ROUTE}${MY_COMPANY}`}>
+                                <div className="navbar__ref">Моя компания</div>
+                            </Link>
+                        </>
+                    )}
                 </div>
             </nav>
             <div className="content">

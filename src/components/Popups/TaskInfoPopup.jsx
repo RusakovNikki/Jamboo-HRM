@@ -3,8 +3,12 @@ import React, { useContext, useEffect, useState } from "react"
 import { Context } from "../../context"
 import { Avatar } from "../HomePage"
 import s from "./Popups.module.scss"
+import { useAuth, useGetDataAboutUser } from "../../firebase"
+import { ROLES } from "../../utils/consts"
 
 export const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
+    const [currentUser] = useAuth()
+    const [userRole] = useGetDataAboutUser(currentUser)
     const sortRef = React.useRef(null)
     const [messageInTask, setMessageInTask] = useState("")
     const [choiceEmployeePopup, setСhoiceEmployeePopup] = useState(false)
@@ -12,7 +16,9 @@ export const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
         useContext(Context)
 
     const hidePopup = (event) => {
-        if (!event.nativeEvent.path.includes(sortRef.current)) {
+        // console.log(event.target.innerHTML)
+        // console.log(sortRef.current.innerHTML.includes(event.target.innerHTML))
+        if (!sortRef.current.innerHTML.includes(event.target.innerHTML)) {
             setTaskPopup(false)
         }
     }
@@ -99,6 +105,7 @@ export const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
     if (!taskPopup) {
         return
     }
+    console.log()
     return (
         task && (
             <div className={`${s.pages_popup} ${s.smooth}`} onClick={hidePopup}>
@@ -115,33 +122,37 @@ export const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
                         {task?.userNameForTask && (
                             <Avatar currentUser={task.userNameForTask} />
                         )}
-                        <input
-                            type="date"
-                            id="start"
-                            value={task?.dateStart}
-                            onChange={setDateStartHandler}
-                        ></input>
-                        <input
-                            type="date"
-                            id="end"
-                            value={task?.dateEnd}
-                            onChange={setDateEndHandler}
-                        ></input>
-                        <button
-                            className={s.pages_popup__choice_employee}
-                            onClick={() =>
-                                setСhoiceEmployeePopup((prev) => !prev)
-                            }
-                        >
-                            {choiceEmployeePopup && (
-                                <ShowUsersPopup
-                                    users={currentCompany.users}
-                                    choiceCorrectEmployee={
-                                        choiceCorrectEmployee
+                        {userRole === ROLES.SUPERVISOR && (
+                            <div style={{ display: "flex" }}>
+                                <input
+                                    type="date"
+                                    id="start"
+                                    value={task?.dateStart}
+                                    onChange={setDateStartHandler}
+                                ></input>
+                                <input
+                                    type="date"
+                                    id="end"
+                                    value={task?.dateEnd}
+                                    onChange={setDateEndHandler}
+                                ></input>
+                                <button
+                                    className={s.pages_popup__choice_employee}
+                                    onClick={() =>
+                                        setСhoiceEmployeePopup((prev) => !prev)
                                     }
-                                />
-                            )}
-                        </button>
+                                >
+                                    {choiceEmployeePopup && (
+                                        <ShowUsersPopup
+                                            users={currentCompany.users}
+                                            choiceCorrectEmployee={
+                                                choiceCorrectEmployee
+                                            }
+                                        />
+                                    )}
+                                </button>
+                            </div>
+                        )}
                         <button
                             className={s.pages_popup__leave_btn}
                             onClick={() => setTaskPopup(false)}
@@ -150,7 +161,7 @@ export const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
                     <form>
                         <div className={s.pages_popup__form}>
                             <div className="form__container">
-                                <div className="form__file-photo-container">
+                                {/* <div className="form__file-photo-container">
                                     <label
                                         htmlFor="file"
                                         className="fileOpen"
@@ -170,7 +181,7 @@ export const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
                                     >
                                         Прикрепить
                                     </label>
-                                </div>
+                                </div> */}
                             </div>
                             <div className={s.pages_popup__description_title}>
                                 Описание

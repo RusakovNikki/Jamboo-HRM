@@ -5,8 +5,12 @@ import { Context } from "../context"
 import { TaskInfoPopup } from "./Popups/TaskInfoPopup"
 import { Avatar } from "./HomePage"
 import { Draggable } from "react-beautiful-dnd"
+import { ROLES } from "../utils/consts"
+import { useAuth, useGetDataAboutUser } from "../firebase"
 
 const Tasks = ({ status, item, rows, user, userId }) => {
+    const [currentUser] = useAuth()
+    const [userRole] = useGetDataAboutUser(currentUser)
     const [taskPopup, setTaskPopup] = useState(false)
     const [taskInfoPopup, setTaskInfoPopup] = useState(false)
     const [task, setTask] = useState()
@@ -52,7 +56,7 @@ const Tasks = ({ status, item, rows, user, userId }) => {
                 <p>
                     {status} <span>{item.tasks.length} Задачи</span>
                 </p>
-                {!userId && (
+                {!userId && user.role === ROLES.SUPERVISOR && (
                     <button
                         className="status_item__del_btn"
                         onClick={() => deleteStatus(item.id)}
@@ -94,16 +98,22 @@ const Tasks = ({ status, item, rows, user, userId }) => {
                                             </div>
                                         )}
                                     </div>
-                                    <button
-                                        className="task__delete"
-                                        onClick={() => deleteTask(task.id)}
-                                    ></button>
+                                    {task?.userIdForTask &&
+                                        task?.userIdForTask ===
+                                            currentUser?.uid && (
+                                            <button
+                                                className="task__delete"
+                                                onClick={() =>
+                                                    deleteTask(task.id)
+                                                }
+                                            ></button>
+                                        )}
                                 </div>
                             )
                         }}
                     </Draggable>
                 ))}
-            {!userId && (
+            {!userId && userRole === ROLES.SUPERVISOR && (
                 <div
                     className="add_new_task"
                     onClick={() => setTaskPopup(true)}

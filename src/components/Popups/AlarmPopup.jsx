@@ -5,7 +5,7 @@ const AlarmPopup = ({ alarm, setAlarm, err }) => {
     const sortRef = React.useRef(null)
 
     const hidePopup = (event) => {
-        if (!event.nativeEvent.path.includes(sortRef.current)) {
+        if (!sortRef.current.innerHTML.includes(event.target.innerHTML)) {
             setAlarm(false)
         }
     }

@@ -13,6 +13,7 @@ import placeholder from "../../images/placeholder.png"
 import AddNewCompanyPopup from "./AddNewCompanyPopup"
 import { db, getDataCollectionWithQuery, useAuth } from "../../firebase"
 import s from "./Popups.module.scss"
+import AlarmPopup from "./AlarmPopup"
 
 const ChooseCompanyPopup = ({
     setChooseCompanyPopup,
@@ -26,16 +27,20 @@ const ChooseCompanyPopup = ({
     const [companyInList, setCompanyInList] = useState()
     const userRef = useRef(null)
     const [reloadThisComponent, setReloadThisComponent] = useState(false)
+    const [alarm, setAlarm] = useState(false)
+    const [alarmErr, setAlarmErr] = useState()
 
     async function addCompanyForEmployee() {
         // Добавление компании в профиль пользователя
-        debugger
         //нахождение компании для проверки поля пароля на совпадение
         let { users, password } = await getDataCollectionWithQuery(
             "company",
             "name",
             companyInList.name
-        )
+        ).catch((error) => {
+            setAlarm(true)
+            setAlarmErr(error)
+        })
 
         const passwordEnter = prompt(
             "Введите ключ для входа, отправленный Вам руководителем"
@@ -55,9 +60,17 @@ const ChooseCompanyPopup = ({
         const positionOnJob = prompt("Укажите должность в компании")
 
         const user = doc(db, "aboutUser", currentUser.uid)
-        await updateDoc(user, { company: companyInList, positionOnJob })
+        await updateDoc(user, { company: companyInList, positionOnJob }).catch(
+            (error) => {
+                setAlarm(true)
+                setAlarmErr(error)
+            }
+        )
 
-        const userSnap = await getDoc(user)
+        const userSnap = await getDoc(user).catch((error) => {
+            setAlarm(true)
+            setAlarmErr(error)
+        })
         userRef.current = userSnap.data()
 
         addEmployeeForCompany(users)
@@ -67,30 +80,38 @@ const ChooseCompanyPopup = ({
 
     async function addEmployeeForCompany(usersInCompany) {
         // Добавление в базу данных всех пользователей, кто присоеденён к данной компании
-        debugger
+
         const companyDoc = doc(db, "company", companyInList.name)
         await updateDoc(companyDoc, {
             // users: { ...usersInCompany, [userRef.current.id]: userRef.current },
             users: [...usersInCompany, userRef.current],
+        }).catch((error) => {
+            setAlarm(true)
+            setAlarmErr(error)
         })
     }
 
     useEffect(() => {
         const q = query(collection(db, "company"))
 
-        getDocs(q).then(
-            (
-                querySnapshot // Получаю всю коллекцию
-            ) =>
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data()
-                    setDbCompany((prev) => [...prev, data])
-                })
-        )
+        getDocs(q)
+            .then(
+                (
+                    querySnapshot // Получаю всю коллекцию
+                ) =>
+                    querySnapshot.forEach((doc) => {
+                        const data = doc.data()
+                        setDbCompany((prev) => [...prev, data])
+                    })
+            )
+            .catch((error) => {
+                setAlarm(true)
+                setAlarmErr(error)
+            })
     }, [reloadThisComponent])
 
     const hidePopup = (event) => {
-        if (!event.nativeEvent.path.includes(sortRef.current)) {
+        if (!sortRef.current.innerHTML.includes(event.target.innerHTML)) {
             setChooseCompanyPopup(false)
         }
     }
@@ -168,6 +189,9 @@ const ChooseCompanyPopup = ({
                 </div>
             </div>
             {/* {reloadThisComponent && <div></div>} */}
+            {alarm && (
+                <AlarmPopup alarm={alarm} setAlarm={setAlarm} err={alarmErr} />
+            )}
         </div>
     )
 }

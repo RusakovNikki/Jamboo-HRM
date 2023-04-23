@@ -19,33 +19,34 @@ const Registration = () => {
     async function createNewUser(e) {
         e.preventDefault()
 
-        try {
-            const userCredential = await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            )
-            const user = await userCredential.user
-            console.log(user)
-
-            const about = await setDoc(doc(db, "aboutUser", user.uid), {
-                role: roleUser,
-                name: nameUser,
-                id: user.uid,
-            })
-            console.log(about)
-
-            const upload = await uploadData(avatar, user)
-            console.log(upload)
-
-            setPassword("")
-            setEmail("")
-            setRole(ROLES.EMPLOYEE)
-            setAvatar(null)
-        } catch (error) {
+        const userCredential = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        ).catch((err) => {
             setAlarm(true)
-            setAlarmErr(error)
-        }
+            setAlarmErr(err)
+        })
+        const user = await userCredential.user
+
+        const about = await setDoc(doc(db, "aboutUser", user.uid), {
+            role: roleUser,
+            name: nameUser,
+            id: user.uid,
+        }).catch((err) => {
+            setAlarm(true)
+            setAlarmErr(err)
+        })
+
+        const upload = await uploadData(avatar, user).catch((err) => {
+            setAlarm(true)
+            setAlarmErr(err)
+        })
+
+        setPassword("")
+        setEmail("")
+        setRole(ROLES.EMPLOYEE)
+        setAvatar(null)
     }
 
     return (
