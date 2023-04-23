@@ -118,7 +118,7 @@ export const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
                         <input
                             type="date"
                             id="start"
-                            value={task?.dateEnd}
+                            value={task?.dateStart}
                             onChange={setDateStartHandler}
                         ></input>
                         <input

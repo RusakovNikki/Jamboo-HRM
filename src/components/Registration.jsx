@@ -5,6 +5,7 @@ import { doc, setDoc } from "firebase/firestore"
 import { auth, db, uploadData } from "../firebase"
 import { LOGIN_ROUTE, ROLES } from "../utils/consts"
 import Header from "./Header"
+import AlarmPopup from "./Popups/AlarmPopup"
 
 const Registration = () => {
     const [email, setEmail] = useState("")
@@ -12,32 +13,39 @@ const Registration = () => {
     const [roleUser, setRole] = useState(ROLES.EMPLOYEE)
     const [avatar, setAvatar] = useState(null)
     const [nameUser, setNameUser] = useState("")
+    const [alarm, setAlarm] = useState(false)
+    const [alarmErr, setAlarmErr] = useState()
 
     async function createNewUser(e) {
         e.preventDefault()
 
-        const userCredential = await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-        )
-        const user = await userCredential.user
-        console.log(user)
+        try {
+            const userCredential = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            )
+            const user = await userCredential.user
+            console.log(user)
 
-        const about = await setDoc(doc(db, "aboutUser", user.uid), {
-            role: roleUser,
-            name: nameUser,
-            id: user.uid,
-        })
-        console.log(about)
+            const about = await setDoc(doc(db, "aboutUser", user.uid), {
+                role: roleUser,
+                name: nameUser,
+                id: user.uid,
+            })
+            console.log(about)
 
-        const upload = await uploadData(avatar, user)
-        console.log(upload)
+            const upload = await uploadData(avatar, user)
+            console.log(upload)
 
-        setPassword("")
-        setEmail("")
-        setRole(ROLES.EMPLOYEE)
-        setAvatar(null)
+            setPassword("")
+            setEmail("")
+            setRole(ROLES.EMPLOYEE)
+            setAvatar(null)
+        } catch (error) {
+            setAlarm(true)
+            setAlarmErr(error)
+        }
     }
 
     return (
@@ -115,6 +123,13 @@ const Registration = () => {
                         />
                     </form>
                 </div>
+                {alarm && (
+                    <AlarmPopup
+                        alarm={alarm}
+                        setAlarm={setAlarm}
+                        err={alarmErr}
+                    />
+                )}
             </div>
         </div>
     )
