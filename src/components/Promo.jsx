@@ -47,7 +47,7 @@ const Promo = () => {
                             </div>
                         </div>
                     </header>
-                    <div className="content">
+                    <div className="content content_promo">
                         <div className="wrapper">
                             <div className="content__container">
                                 <div className="content__information">

@@ -122,6 +122,10 @@
     overflow-y: scroll;
     overflow-x: hidden;
 
+    &_promo {
+        width: 95%;
+        overflow: hidden;
+    }
     &__main {
         height: calc(100% - 17px);
         // width: 50%;
