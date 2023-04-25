@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
 import { signOut } from "firebase/auth"
-import LetteredAvatar from "react-lettered-avatar"
+import AvatarLogo from "react-avatar"
 import { Link, Routes, Route } from "react-router-dom"
 
 import { auth, useAuth, useGetDataAboutUser } from "../firebase"
@@ -224,7 +224,7 @@ const HomePage = () => {
 
 export default HomePage
 
-export const Avatar = ({ currentUser, avatar }) => {
+export const Avatar = ({ currentUser, avatar, size }) => {
     return (
         <div>
             {!currentUser ? (
@@ -237,13 +237,7 @@ export const Avatar = ({ currentUser, avatar }) => {
                     />
                 </div>
             ) : (
-                <LetteredAvatar
-                    name={currentUser}
-                    size={40}
-                    radius={30}
-                    color="#fff"
-                    backgroundColors={arrayWithColors}
-                />
+                <AvatarLogo name={currentUser} size={size || 40} round="30px" />
             )}
         </div>
     )

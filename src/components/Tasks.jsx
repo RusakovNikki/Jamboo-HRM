@@ -97,6 +97,8 @@ const Tasks = ({ status, item, rows, user, userId }) => {
                                                         currentUser={
                                                             task.userNameForTask
                                                         }
+                                                        avatar={null}
+                                                        size={20}
                                                     />
                                                 )}
                                             </div>
