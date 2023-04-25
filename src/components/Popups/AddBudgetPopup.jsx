@@ -8,7 +8,8 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
     const sortRef = useRef(null)
     const [isJobBudget, setIsJobBudget] = useState(false)
     const [isCompanyBudget, setIsCompanyBudget] = useState(false)
-    const { currentCompany, setCurrentCompany } = useContext(Context)
+    const { currentUserData, currentCompany, setCurrentCompany } =
+        useContext(Context)
     const [userBudgetKey, setUserBudgetKey] = useState()
     const [priceForJob, setPriceForJob] = useState()
     const [typeBudget, setTypeBudget] = useState()
@@ -75,6 +76,31 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
                 return user
             }
         })
+    }
+
+    const cointingHours = () => {
+        if (!currentUserData.accruedHours) return
+
+        if (currentUserData.accruedHours > 40) {
+            return setPriceForJob((price) => Math.round(price * 1.3))
+        }
+        if (currentUserData.accruedHours > 30) {
+            return setPriceForJob((price) => Math.round(price * 1.2))
+        }
+        if (currentUserData.accruedHours > 20) {
+            return setPriceForJob((price) => Math.round(price * 1.1))
+        }
+        if (currentUserData.accruedHours < -30) {
+            return setPriceForJob((price) => Math.round(price * 0.7))
+        }
+        if (currentUserData.accruedHours < -20) {
+            return setPriceForJob((price) => Math.round(price * 0.8))
+        }
+        if (currentUserData.accruedHours < -10) {
+            return setPriceForJob((price) => Math.round(price * 0.9))
+        }
+
+        console.log(priceForJob)
     }
 
     return (
@@ -206,14 +232,29 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
                                         value={user.positionOnJob}
                                         className="form__input"
                                     />
-                                    <input
-                                        type="text"
-                                        value={priceForJob}
-                                        className="form__input"
-                                        onChange={(e) =>
-                                            setPriceForJob(e.target.value)
-                                        }
-                                    />
+                                    <div style={{ display: "flex" }}>
+                                        <input
+                                            type="text"
+                                            value={priceForJob}
+                                            className="form__input"
+                                            onChange={(e) =>
+                                                setPriceForJob(e.target.value)
+                                            }
+                                        />
+                                        {priceForJob && (
+                                            <button
+                                                className="button"
+                                                style={{
+                                                    width: "100%",
+                                                    marginLeft: "10px",
+                                                }}
+                                                onClick={cointingHours}
+                                            >
+                                                Учесть отработанные часы
+                                            </button>
+                                        )}
+                                    </div>
+
                                     <input
                                         type="date"
                                         id="start"

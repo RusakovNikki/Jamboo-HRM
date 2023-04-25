@@ -30,9 +30,9 @@
     }
 
     &__button {
-        position: absolute;
-        bottom: 20px;
-        right: 230px;
+        width: 45%;
+        display: flex;
+        justify-content: space-between;
     }
 
     &__description_title {
@@ -43,8 +43,6 @@
 
     &__input {
         margin: 0 !important;
-        position: absolute;
-        bottom: 20px;
     }
 
     &__task_info {

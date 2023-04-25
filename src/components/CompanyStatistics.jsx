@@ -63,7 +63,7 @@ const CompanyStatistics = () => {
         return dd + "." + mm + "." + yy
     }
     let datesInThisYear = currentCompany?.budget
-        .filter((item) => {
+        ?.filter((item) => {
             let date = item.date.split(".")
             if (+date[2] === new Date().getFullYear()) {
                 return item.date[1]

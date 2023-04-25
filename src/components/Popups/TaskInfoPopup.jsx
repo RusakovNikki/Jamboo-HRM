@@ -5,6 +5,8 @@ import { Avatar } from "../HomePage"
 import s from "./Popups.module.scss"
 import { useAuth, useGetDataAboutUser } from "../../firebase"
 import { ROLES } from "../../utils/consts"
+import { doc, updateDoc } from "firebase/firestore"
+import { db } from "../../firebase"
 
 export const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
     const [currentUser] = useAuth()
@@ -12,8 +14,12 @@ export const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
     const sortRef = React.useRef(null)
     const [messageInTask, setMessageInTask] = useState("")
     const [choiceEmployeePopup, setСhoiceEmployeePopup] = useState(false)
-    let { currentUserData, currentCompany, setCurrentCompany } =
-        useContext(Context)
+    let {
+        currentUserData,
+        setCurrentUserData,
+        currentCompany,
+        setCurrentCompany,
+    } = useContext(Context)
 
     const hidePopup = (event) => {
         // console.log(event.target.innerHTML)
@@ -22,6 +28,7 @@ export const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
             setTaskPopup(false)
         }
     }
+
     const addNewComment = (e) => {
         e.preventDefault()
         let { statuses } = currentCompany
@@ -101,6 +108,43 @@ export const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
             return { ...currentCompany }
         })
     }
+    console.log(task)
+    const acceptTask = (e) => {
+        e.preventDefault()
+        // подсчитать выигранное время
+
+        // let dateStart = new Date(new Date(task.dateStart).getTime() + 21600000) // 9 утра
+        let dateEnd = new Date(new Date(task.dateEnd).getTime() + 54000000) //6 вечера
+        let dateCurrent = new Date() // текущее время
+
+        let accruedHours = Math.round((dateEnd - dateCurrent) / (1000 * 3600))
+
+        if (currentUserData?.accruedHours) {
+            currentUserData.accruedHours += accruedHours
+        } else {
+            currentUserData.accruedHours = accruedHours
+        }
+
+        const userDoc = doc(db, "aboutUser", currentUserData.id)
+        updateDoc(userDoc, {
+            accruedHours: currentUserData.accruedHours,
+        }).then((_) => {
+            console.log("update")
+            setTaskPopup(false)
+
+            currentCompany.statuses.forEach((status) => {
+                status.tasks.forEach((tsk) => {
+                    if (tsk.id === task.id) {
+                        tsk.accepted = true
+                    }
+                })
+            })
+            setCurrentCompany((_) => {
+                return { ...currentCompany }
+            })
+        })
+    }
+    console.log(task.accepted)
 
     if (!taskPopup) {
         return
@@ -202,24 +246,43 @@ export const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
                                         </div>
                                     </div>
                                 ))}
-
-                            <input
-                                type="text"
-                                name="descriptionTask"
-                                placeholder="Добавить описание..."
-                                required="required"
-                                className={s.pages_popup__input}
-                                value={messageInTask}
-                                onChange={(e) =>
-                                    setMessageInTask(e.target.value)
-                                }
-                            />
-                        </div>
-                        <div
-                            className={s.pages_popup__button}
-                            onClick={addNewComment}
-                        >
-                            <button className="button">Добавить</button>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    position: "absolute",
+                                    bottom: "30px",
+                                    width: "90%",
+                                }}
+                            >
+                                <input
+                                    type="text"
+                                    name="descriptionTask"
+                                    placeholder="Добавить описание..."
+                                    required="required"
+                                    className={s.pages_popup__input}
+                                    value={messageInTask}
+                                    onChange={(e) =>
+                                        setMessageInTask(e.target.value)
+                                    }
+                                />
+                                <div className={s.pages_popup__button}>
+                                    <button
+                                        className="button"
+                                        onClick={addNewComment}
+                                    >
+                                        Добавить
+                                    </button>
+                                    {task?.userIdForTask === currentUser?.uid &&
+                                        !task.accepted && (
+                                            <button
+                                                className="button button--accept"
+                                                onClick={acceptTask}
+                                            >
+                                                Задание выполнено
+                                            </button>
+                                        )}
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>

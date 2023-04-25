@@ -90,11 +90,15 @@ const Tasks = ({ status, item, rows, user, userId }) => {
                                         </p>
                                         {task?.userNameForTask && (
                                             <div className="task__avatar">
-                                                <Avatar
-                                                    currentUser={
-                                                        task.userNameForTask
-                                                    }
-                                                />
+                                                {task?.accepted ? (
+                                                    <div className="task__accepted"></div>
+                                                ) : (
+                                                    <Avatar
+                                                        currentUser={
+                                                            task.userNameForTask
+                                                        }
+                                                    />
+                                                )}
                                             </div>
                                         )}
                                     </div>
