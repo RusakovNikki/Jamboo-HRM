@@ -113,11 +113,22 @@ export const TaskInfoPopup = ({ taskPopup, setTaskPopup, task, status }) => {
         e.preventDefault()
         // подсчитать выигранное время
 
-        // let dateStart = new Date(new Date(task.dateStart).getTime() + 21600000) // 9 утра
+        let dateStart = new Date(new Date(task.dateStart).getTime() + 21600000) // 9 утра
         let dateEnd = new Date(new Date(task.dateEnd).getTime() + 54000000) //6 вечера
         let dateCurrent = new Date() // текущее время
-
+        if (dateStart.getDate() === dateCurrent.getDate())
+            dateCurrent = dateStart
         let accruedHours = Math.round((dateEnd - dateCurrent) / (1000 * 3600))
+        let count = accruedHours
+        accruedHours = 0
+        while (count > 24) {
+            accruedHours += 8
+            count -= 24
+        }
+        while (count < -24) {
+            accruedHours -= 8
+            count += 24
+        }
 
         if (currentUserData?.accruedHours) {
             currentUserData.accruedHours += accruedHours

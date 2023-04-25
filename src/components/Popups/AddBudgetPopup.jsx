@@ -16,6 +16,7 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
     const [titleForbudget, setTitleForbudget] = useState()
     const [descForBudget, setDescForBudget] = useState()
     const [date, setDate] = useState()
+    const [isDisabled, setIsDisabled] = useState(false)
     const hidePopup = (event) => {
         if (!sortRef.current.innerHTML.includes(event.target.innerHTML)) {
             setSettingsPopup(false)
@@ -43,7 +44,7 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
                 date: date.split("-").reverse().join("."),
             })
         }
-        debugger
+
         currentCompany.budget = currentCompany.budget
             .sort((a, b) => {
                 return b.date.split(".")[0] - a.date.split(".")[0]
@@ -78,8 +79,9 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
         })
     }
 
-    const cointingHours = () => {
+    const countingHours = (e) => {
         if (!currentUserData.accruedHours) return
+        setIsDisabled(true)
 
         if (currentUserData.accruedHours > 40) {
             return setPriceForJob((price) => Math.round(price * 1.3))
@@ -99,8 +101,6 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
         if (currentUserData.accruedHours < -10) {
             return setPriceForJob((price) => Math.round(price * 0.9))
         }
-
-        console.log(priceForJob)
     }
 
     return (
@@ -240,6 +240,7 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
                                             onChange={(e) =>
                                                 setPriceForJob(e.target.value)
                                             }
+                                            disabled={isDisabled}
                                         />
                                         {priceForJob && (
                                             <button
@@ -248,34 +249,36 @@ const AddBudgetPopup = ({ setSettingsPopup, settingsPopup }) => {
                                                     width: "100%",
                                                     marginLeft: "10px",
                                                 }}
-                                                onClick={cointingHours}
+                                                onClick={countingHours}
+                                                disabled={isDisabled}
                                             >
                                                 Учесть отработанные часы
                                             </button>
                                         )}
                                     </div>
-
-                                    <input
-                                        type="date"
-                                        id="start"
-                                        value={date}
-                                        onChange={(e) =>
-                                            setDate(
-                                                e.target.value
-                                                // .split("-")
-                                                // .reverse()
-                                                // .join(".")
-                                            )
-                                        }
-                                    ></input>
-                                    <button
-                                        className="button"
-                                        onClick={() =>
-                                            updateCompanyBudget("expenses")
-                                        }
-                                    >
-                                        Добавить
-                                    </button>
+                                    <div style={{ display: "flex" }}>
+                                        <input
+                                            type="date"
+                                            id="start"
+                                            value={date}
+                                            onChange={(e) =>
+                                                setDate(
+                                                    e.target.value
+                                                    // .split("-")
+                                                    // .reverse()
+                                                    // .join(".")
+                                                )
+                                            }
+                                        ></input>
+                                        <button
+                                            className="button"
+                                            onClick={() =>
+                                                updateCompanyBudget("expenses")
+                                            }
+                                        >
+                                            Добавить
+                                        </button>
+                                    </div>
                                 </div>
                             )}
                         </div>
