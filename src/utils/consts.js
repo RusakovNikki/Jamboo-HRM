@@ -12,6 +12,8 @@ export const MY_COMPANY = '/company'
 
 export const MY_TASKS = '/tasks'
 
+export const CORP_MES = '/messages'
+
 export const REG_ROUTE = '/reg'
 
 export const TASKS = '/tasks'

@@ -8,6 +8,7 @@ import {
     arrayWithColors,
     BOARD,
     CALENDAR,
+    CORP_MES,
     HOME_PAGE_ROUTE,
     MY_COMPANY,
     MY_TASKS,
@@ -21,6 +22,7 @@ import { Context } from "../context"
 import UserCurrentTasks from "./UserCurrentTasks"
 import CalendarPage from "./CalendarPage"
 import CompanyStatistics from "./CompanyStatistics"
+import Messenger from "../components/Messenger"
 
 const HomePage = () => {
     const [currentUser] = useAuth()
@@ -92,7 +94,9 @@ const HomePage = () => {
                     <Link to={`${HOME_PAGE_ROUTE}${MY_TASKS}`}>
                         <div className="navbar__ref">Мои задачи</div>
                     </Link>
-                    <div className="navbar__ref">Сообщения</div>
+                    <Link to={`${HOME_PAGE_ROUTE}${CORP_MES}`}>
+                        <div className="navbar__ref">Сообщения</div>
+                    </Link>
                     {userRole === ROLES.SUPERVISOR && (
                         <>
                             <Link to={`${HOME_PAGE_ROUTE}${CALENDAR}`}>
@@ -210,6 +214,7 @@ const HomePage = () => {
                     />
                     <Route path={MY_COMPANY} element={<CompanyStatistics />} />
                     <Route path={CALENDAR} element={<CalendarPage />} />
+                    <Route path={CORP_MES} element={<Messenger />} />
                 </Routes>
             </div>
             {settingsPopup && (

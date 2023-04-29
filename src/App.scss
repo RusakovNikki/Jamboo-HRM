@@ -757,3 +757,86 @@
 .react-selectrix {
     width: 300px;
 }
+
+.messenger {
+    width: 100%;
+    height: calc(100% - 55px);
+
+    &__active_zone {
+        width: auto;
+        height: 90%;
+        margin: 10px 0;
+        // border: 1px solid lightblue;
+    }
+
+    &__container {
+        &_own {
+            display: flex;
+            align-self: flex-end;
+            align-items: center;
+        }
+    }
+
+    &__file {
+        height: 60%;
+        width: 70px;
+        background-color: rgb(244, 244, 244);
+        border-radius: 8px;
+        margin-right: 10px;
+        background-image: url("./images/clip.png");
+        background-position: center;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+            background-color: #c8c8c8;
+        }
+    }
+
+    &__form {
+        display: flex;
+    }
+    .form__file-photo-container {
+        margin-right: 10px;
+        width: 30px;
+        justify-content: center;
+        border-radius: 4px;
+    }
+
+    &__active_zone {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__mes {
+        display: flex;
+        margin: 10px;
+        // box-shadow: rgb(204 204 204) 0px 0px 31px;
+        border-radius: 15px;
+        background-color: rgb(244, 244, 244);
+        padding: 20px;
+        width: fit-content;
+    }
+
+    &__my_mes {
+        // justify-content: flex-end;
+        background-color: rgb(111, 219, 255);
+    }
+
+    &__user {
+        margin-left: 10px;
+    }
+
+    &__name {
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .button {
+        margin-left: 20px;
+    }
+    .form__input {
+        margin: 0;
+    }
+}
